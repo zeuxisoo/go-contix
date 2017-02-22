@@ -4,6 +4,8 @@ import (
     "os"
 
     "github.com/codegangsta/cli"
+
+    "github.com/zeuxisoo/go-contix/commands"
 )
 
 const (
@@ -16,7 +18,7 @@ func main() {
     app.Usage = "A application console for contix"
     app.Version = APP_VERSION
     app.Commands = []cli.Command{
-
+        commands.CmdProxy,
     }
     app.Flags = append(app.Flags, []cli.Flag{}...)
     app.Run(os.Args)
