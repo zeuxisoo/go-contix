@@ -1,4 +1,4 @@
-package cron
+package commands
 
 import (
     "fmt"
