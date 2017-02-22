@@ -2,3 +2,5 @@ package: github.com/zeuxisoo/go-contix
 import:
 - package: github.com/codegangsta/cli
   version: ^1.19.1
+- package: github.com/parnurzeal/gorequest
+  version: ^0.2.15
