@@ -1,6 +1,8 @@
-hash: 2e941b93f9f901005db80258e1d0d724ac5392cf1c210409f94a16fe380b537d
-updated: 2017-02-22T17:53:40.234989987+08:00
+hash: b4acbf1e2775fbda0bcd611bb3ab0c84021922c012acbf7328b445d36241129b
+updated: 2017-02-23T12:40:30.914665606+08:00
 imports:
+- name: github.com/andybalholm/cascadia
+  version: 349dd0209470eabd9514242c688c403c0926d266
 - name: github.com/codegangsta/cli
   version: 0bdeddeeb0f650497d603c4ad7b20cfe685682f6
 - name: github.com/moul/http2curl
@@ -9,8 +11,12 @@ imports:
   version: a578a48e8d6ca8b01a3b18314c43c6716bb5f5a3
 - name: github.com/pkg/errors
   version: 248dadf4e9068a0b3e79f02ed0a610d935de5302
+- name: github.com/PuerkitoBio/goquery
+  version: e1271ee34c6a305e38566ecd27ae374944907ee9
 - name: golang.org/x/net
   version: 6b27048ae5e6ad1ef927e72e437531493de612fe
   subpackages:
+  - html
+  - html/atom
   - publicsuffix
 testImports: []

@@ -11,7 +11,10 @@ import (
 )
 
 const (
-    Gimme = "gimme"
+    FetchFilePath = "data/proxy-fetch.txt"
+
+    Gimme         = "gimme"
+    FreeProxyList = "free-proxy-list"
 )
 
 var CmdProxyFetch = cli.Command{
@@ -22,7 +25,10 @@ var CmdProxyFetch = cli.Command{
     Flags: []cli.Flag{
         cli.StringFlag{
             Name:  "site",
-            Usage: fmt.Sprintf("What proxy site you want? [Support: %s]", Gimme),
+            Usage: fmt.Sprintf("What proxy site you want? [Support: %s]", strings.Join([]string{
+                Gimme,
+                FreeProxyList,
+            }, ",")),
             Value: Gimme,
         },
     },
@@ -35,6 +41,8 @@ func proxyFetch(ctx *cli.Context) error {
     switch strings.ToLower(site) {
         case Gimme:
             theProxySite = new(proxySite.GimmeProxySite)
+        case FreeProxyList:
+            theProxySite = new(proxySite.FreeProxyListProxySite)
     }
 
     proxyList, err := theProxySite.Fetch();
@@ -43,14 +51,20 @@ func proxyFetch(ctx *cli.Context) error {
     }
 
     if len(proxyList) > 0 {
-        file, err := os.OpenFile("data/proxy-fetch.txt", os.O_CREATE | os.O_APPEND | os.O_WRONLY, 0666)
+        if err := os.Remove(FetchFilePath); err != nil {
+            return err
+        }
+
+        file, err := os.OpenFile(FetchFilePath, os.O_CREATE | os.O_APPEND | os.O_WRONLY, 0666)
         if err != nil {
             return err
         }
         defer file.Close()
 
         for _, proxy := range proxyList {
-            if _, err = file.WriteString(proxy); err != nil {
+            ipAndPort := fmt.Sprintf("%s:%s\n", proxy.IP, proxy.Port)
+
+            if _, err = file.WriteString(ipAndPort); err != nil {
                 continue
             }
         }

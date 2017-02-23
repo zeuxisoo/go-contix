@@ -1,7 +1,7 @@
 package site
 
 import (
-    "fmt"
+    "strings"
     "time"
     "encoding/json"
 
@@ -42,11 +42,11 @@ func (this *GimmeProxySite) Name() (string) {
     return "Gimme"
 }
 
-func (this *GimmeProxySite) Fetch() ([]string, error) {
+func (this *GimmeProxySite) Fetch() ([]ProxyInfo, error) {
     request    := gorequest.New()
     gimmeProxy := GimmeProxy{}
 
-    var proxyList []string
+    var proxyList []ProxyInfo
     for i := 0; i < 5; i++ {
         _, body, _ := request.Get("https://gimmeproxy.com/api/getProxy").End()
 
@@ -54,7 +54,12 @@ func (this *GimmeProxySite) Fetch() ([]string, error) {
             continue
         }
 
-        proxyList = append(proxyList, fmt.Sprintf("%s:%s", gimmeProxy.IP, gimmeProxy.Port))
+        proxyList = append(proxyList, ProxyInfo{
+            IP      : gimmeProxy.IP,
+            Port    : gimmeProxy.Port,
+            Protocol: gimmeProxy.Protocol,
+            Country : strings.ToLower(gimmeProxy.Country),
+        })
 
         time.Sleep(time.Second * 2)
     }
