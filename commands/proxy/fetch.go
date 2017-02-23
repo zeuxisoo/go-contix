@@ -15,6 +15,7 @@ const (
 
     FreeProxyList = "free-proxy-list"
     NyLoner       = "nyloner"
+    XiCiDaiLi     = "xicidaili"
     Gimme         = "gimme"
 )
 
@@ -29,6 +30,7 @@ var CmdProxyFetch = cli.Command{
             Usage: fmt.Sprintf("What proxy site you want? [Support: %s]", strings.Join([]string{
                 FreeProxyList,
                 NyLoner,
+                XiCiDaiLi,
                 Gimme,
             }, ",")),
             Value: FreeProxyList,
@@ -45,6 +47,8 @@ func proxyFetch(ctx *cli.Context) error {
             theProxySite = new(proxySite.FreeProxyListProxySite)
         case NyLoner:
             theProxySite = new(proxySite.NyLonerProxySite)
+        case XiCiDaiLi:
+            theProxySite = new(proxySite.XiCiDaiLiProxySite)
         case Gimme:
             theProxySite = new(proxySite.GimmeProxySite)
     }
