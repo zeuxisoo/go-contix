@@ -7,12 +7,11 @@ import (
 
     "github.com/codegangsta/cli"
 
+    "github.com/zeuxisoo/go-contix/configs"
     proxySite "github.com/zeuxisoo/go-contix/proxy/site"
 )
 
 const (
-    FetchFilePath = "data/proxy-fetch.txt"
-
     FreeProxyList = "free-proxy-list"
     NyLoner       = "nyloner"
     XiCiDaiLi     = "xicidaili"
@@ -59,11 +58,11 @@ func proxyFetch(ctx *cli.Context) error {
     }
 
     if len(proxyList) > 0 {
-        if err := os.Remove(FetchFilePath); err != nil {
+        if err := os.Remove(configs.ProxyFetchFilePath); err != nil {
             return err
         }
 
-        file, err := os.OpenFile(FetchFilePath, os.O_CREATE | os.O_APPEND | os.O_WRONLY, 0666)
+        file, err := os.OpenFile(configs.ProxyFetchFilePath, os.O_CREATE | os.O_APPEND | os.O_WRONLY, 0666)
         if err != nil {
             return err
         }
