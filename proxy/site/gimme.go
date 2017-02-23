@@ -2,7 +2,7 @@ package site
 
 import (
     "fmt"
-
+    "time"
     "encoding/json"
 
     "github.com/parnurzeal/gorequest"
@@ -35,15 +35,29 @@ type GimmeProxy struct {
     OtherProtocols  struct{}            `json:"otherProtocols"`
 }
 
-func FetchGimme()  {
-    request    := gorequest.New()
-    _, body, _ := request.Get("https://gimmeproxy.com/api/getProxy").End()
+type GimmeProxySite struct {
+}
 
+func (this *GimmeProxySite) Name() (string) {
+    return "Gimme"
+}
+
+func (this *GimmeProxySite) Fetch() ([]string, error) {
+    request    := gorequest.New()
     gimmeProxy := GimmeProxy{}
 
-    if err := json.Unmarshal([]byte(body), &gimmeProxy); err != nil {
-        panic(err)
+    var proxyList []string
+    for i := 0; i < 5; i++ {
+        _, body, _ := request.Get("https://gimmeproxy.com/api/getProxy").End()
+
+        if err := json.Unmarshal([]byte(body), &gimmeProxy); err != nil {
+            continue
+        }
+
+        proxyList = append(proxyList, fmt.Sprintf("%s:%s", gimmeProxy.IP, gimmeProxy.Port))
+
+        time.Sleep(time.Second * 2)
     }
 
-    fmt.Println(gimmeProxy.IP)
+    return proxyList, nil
 }
