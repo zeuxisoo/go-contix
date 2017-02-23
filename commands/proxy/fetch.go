@@ -62,7 +62,7 @@ func proxyFetch(ctx *cli.Context) error {
         defer file.Close()
 
         for _, proxy := range proxyList {
-            ipAndPort := fmt.Sprintf("%s:%s\n", proxy.IP, proxy.Port)
+            ipAndPort := fmt.Sprintf("%s://%s:%s\n", proxy.Protocol, proxy.IP, proxy.Port)
 
             if _, err = file.WriteString(ipAndPort); err != nil {
                 continue

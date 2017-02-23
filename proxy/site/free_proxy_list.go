@@ -54,7 +54,7 @@ func (this *FreeProxyListProxySite) Fetch() ([]ProxyInfo, error) {
             proxyList = append(proxyList, ProxyInfo{
                 IP      : decodeIp(ip),
                 Port    : port,
-                Protocol: protocol,
+                Protocol: strings.ToLower(protocol),
                 Country : strings.ToLower(fileName(country)),
             })
         }

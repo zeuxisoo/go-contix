@@ -57,7 +57,7 @@ func (this *GimmeProxySite) Fetch() ([]ProxyInfo, error) {
         proxyList = append(proxyList, ProxyInfo{
             IP      : gimmeProxy.IP,
             Port    : gimmeProxy.Port,
-            Protocol: gimmeProxy.Protocol,
+            Protocol: strings.ToLower(gimmeProxy.Protocol),
             Country : strings.ToLower(gimmeProxy.Country),
         })
 
