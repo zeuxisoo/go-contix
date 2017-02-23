@@ -14,6 +14,7 @@ const (
     FetchFilePath = "data/proxy-fetch.txt"
 
     FreeProxyList = "free-proxy-list"
+    NyLoner       = "nyloner"
     Gimme         = "gimme"
 )
 
@@ -27,6 +28,7 @@ var CmdProxyFetch = cli.Command{
             Name:  "site",
             Usage: fmt.Sprintf("What proxy site you want? [Support: %s]", strings.Join([]string{
                 FreeProxyList,
+                NyLoner,
                 Gimme,
             }, ",")),
             Value: FreeProxyList,
@@ -41,6 +43,8 @@ func proxyFetch(ctx *cli.Context) error {
     switch strings.ToLower(site) {
         case FreeProxyList:
             theProxySite = new(proxySite.FreeProxyListProxySite)
+        case NyLoner:
+            theProxySite = new(proxySite.NyLonerProxySite)
         case Gimme:
             theProxySite = new(proxySite.GimmeProxySite)
     }
