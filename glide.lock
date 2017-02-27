@@ -1,12 +1,16 @@
-hash: b4acbf1e2775fbda0bcd611bb3ab0c84021922c012acbf7328b445d36241129b
-updated: 2017-02-23T12:40:30.914665606+08:00
+hash: 64871cff7623ac1323e44d5b5ec0278a08c0ba1ad8e3816d38a1d33edb94eec0
+updated: 2017-02-27T15:04:57.494007429+08:00
 imports:
 - name: github.com/andybalholm/cascadia
   version: 349dd0209470eabd9514242c688c403c0926d266
 - name: github.com/codegangsta/cli
   version: 0bdeddeeb0f650497d603c4ad7b20cfe685682f6
+- name: github.com/mattn/go-runewidth
+  version: 14207d285c6c197daabb5c9793d63e7af9ab2d50
 - name: github.com/moul/http2curl
   version: 4e24498b31dba4683efb9d35c1c8a91e2eda28c8
+- name: github.com/olekukonko/tablewriter
+  version: febf2d34b54a69ce7530036c7503b1c9fbfdf0bb
 - name: github.com/parnurzeal/gorequest
   version: a578a48e8d6ca8b01a3b18314c43c6716bb5f5a3
 - name: github.com/pkg/errors
@@ -14,9 +18,11 @@ imports:
 - name: github.com/PuerkitoBio/goquery
   version: e1271ee34c6a305e38566ecd27ae374944907ee9
 - name: golang.org/x/net
-  version: 6b27048ae5e6ad1ef927e72e437531493de612fe
+  version: 10c134ea0df15f7e34d789338c7a2d76cc7a3ab9
   subpackages:
   - html
   - html/atom
   - publicsuffix
+- name: gopkg.in/yaml.v2
+  version: a3f3340b5840cee44f372bddb5880fcbc419b46a
 testImports: []

@@ -1,0 +1,9 @@
+tickets:
+- id: 31590
+  schedule: "* */5 * * * *"
+  remark: "This is a remark one"
+  enable: true
+- id: 30924
+  schedule: "* */10 * * * *"
+  remark: "This is a remark two"
+  enable: false
