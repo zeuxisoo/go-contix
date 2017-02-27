@@ -24,6 +24,11 @@ var CmdProxyUpdate = cli.Command{
     },
 }
 
+type ProxyState struct {
+    usable  bool
+    proxy   string
+}
+
 func proxyUpdate(cli *cli.Context) error {
     proxyList, err := readProxyFetchFile()
     if err != nil {
@@ -31,36 +36,62 @@ func proxyUpdate(cli *cli.Context) error {
     }
 
     request := gorequest.New()
-    passedProxyChannel := make(chan string)
 
-    go func() {
-        for _, proxy := range proxyList {
-            if proxy == "" {
-                continue
+    validateProxyStateChannel  := make(chan string, 100)
+    validateProxyResultChannel := make(chan ProxyState, 100)
+
+    for workerCount := 0; workerCount <= 3; workerCount++ {
+        go func() {
+            for proxy := range validateProxyStateChannel {
+                if proxy == "" {
+                    validateProxyResultChannel <- ProxyState{
+                        usable: false,
+                        proxy : "",
+                    }
+
+                    continue
+                }
+
+                response, _, errs := request.
+                    Proxy(proxy).
+                    Get("http://httpbin.org/ip").
+                    // Connection expire on 3 second
+                    Timeout(3000 * time.Millisecond).
+                    // Retry 1 times with 3 second when got bad request or inter server error
+                    Retry(1, 3 * time.Second, http.StatusBadRequest, http.StatusInternalServerError).
+                    End()
+
+                if errs != nil {
+                    validateProxyResultChannel <- ProxyState{
+                        usable: false,
+                        proxy : proxy,
+                    }
+
+                    continue
+                }
+
+                if response.StatusCode == 200 {
+                    validateProxyResultChannel <- ProxyState{
+                        usable: true,
+                        proxy : proxy,
+                    }
+                }
             }
+        }()
+    }
 
-            response, _, errs := request.
-                Proxy(proxy).
-                Get("http://httpbin.org/ip").
-                Retry(1, 2 * time.Second, http.StatusBadRequest, http.StatusInternalServerError). // 1 times each 2 second
-                End()
-            if errs != nil {
-                continue
-            }
-
-            if response.StatusCode == 200 {
-                passedProxyChannel <- proxy
-            }
-        }
-
-        close(passedProxyChannel)
-    }()
+    for _, proxy := range proxyList {
+        validateProxyStateChannel <- proxy
+    }
+    close(validateProxyStateChannel)
 
     var passedProxyList []string
-    for proxy := range passedProxyChannel {
-        fmt.Printf("Validated: %s\n", proxy)
+    for i := 0; i < len(proxyList); i++ {
+        result := <-validateProxyResultChannel
 
-        passedProxyList = append(passedProxyList, proxy)
+        if result.usable == true {
+            passedProxyList = append(passedProxyList, result.proxy)
+        }
     }
 
     if len(passedProxyList) > 0 {
