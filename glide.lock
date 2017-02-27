@@ -1,5 +1,5 @@
-hash: 64871cff7623ac1323e44d5b5ec0278a08c0ba1ad8e3816d38a1d33edb94eec0
-updated: 2017-02-27T15:04:57.494007429+08:00
+hash: c28f70687cf4cccbbc9f29e3d9c6167f7f2d3778df4f6c1dc6ebedbd1a475b2b
+updated: 2017-02-27T17:38:19.221595681+08:00
 imports:
 - name: github.com/andybalholm/cascadia
   version: 349dd0209470eabd9514242c688c403c0926d266
@@ -17,6 +17,8 @@ imports:
   version: 248dadf4e9068a0b3e79f02ed0a610d935de5302
 - name: github.com/PuerkitoBio/goquery
   version: e1271ee34c6a305e38566ecd27ae374944907ee9
+- name: github.com/robfig/cron
+  version: b024fc5ea0e34bc3f83d9941c8d60b0622bfaca4
 - name: golang.org/x/net
   version: 10c134ea0df15f7e34d789338c7a2d76cc7a3ab9
   subpackages:
