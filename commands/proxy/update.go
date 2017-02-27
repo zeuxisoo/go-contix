@@ -13,6 +13,7 @@ import (
     "github.com/parnurzeal/gorequest"
 
     "github.com/zeuxisoo/go-contix/configs"
+    "github.com/zeuxisoo/go-contix/models"
 )
 
 var CmdProxyUpdate = cli.Command{
@@ -24,12 +25,9 @@ var CmdProxyUpdate = cli.Command{
     },
 }
 
-type ProxyState struct {
-    usable  bool
-    proxy   string
-}
-
 func proxyUpdate(cli *cli.Context) error {
+    type proxyState models.ProxyState
+
     proxyList, err := readProxyFetchFile()
     if err != nil {
         return err
@@ -38,15 +36,15 @@ func proxyUpdate(cli *cli.Context) error {
     request := gorequest.New()
 
     validateProxyStateChannel  := make(chan string, 100)
-    validateProxyResultChannel := make(chan ProxyState, 100)
+    validateProxyResultChannel := make(chan proxyState, 100)
 
     for workerCount := 0; workerCount <= 3; workerCount++ {
         go func() {
             for proxy := range validateProxyStateChannel {
                 if proxy == "" {
-                    validateProxyResultChannel <- ProxyState{
-                        usable: false,
-                        proxy : "",
+                    validateProxyResultChannel <- proxyState{
+                        Usable: false,
+                        Proxy : "",
                     }
 
                     continue
@@ -62,18 +60,18 @@ func proxyUpdate(cli *cli.Context) error {
                     End()
 
                 if errs != nil {
-                    validateProxyResultChannel <- ProxyState{
-                        usable: false,
-                        proxy : proxy,
+                    validateProxyResultChannel <- proxyState{
+                        Usable: false,
+                        Proxy : proxy,
                     }
 
                     continue
                 }
 
                 if response.StatusCode == 200 {
-                    validateProxyResultChannel <- ProxyState{
-                        usable: true,
-                        proxy : proxy,
+                    validateProxyResultChannel <- proxyState{
+                        Usable: true,
+                        Proxy : proxy,
                     }
                 }
             }
@@ -89,8 +87,8 @@ func proxyUpdate(cli *cli.Context) error {
     for i := 0; i < len(proxyList); i++ {
         result := <-validateProxyResultChannel
 
-        if result.usable == true {
-            passedProxyList = append(passedProxyList, result.proxy)
+        if result.Usable == true {
+            passedProxyList = append(passedProxyList, result.Proxy)
         }
     }
 

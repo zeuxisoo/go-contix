@@ -8,6 +8,8 @@ import (
 
     "github.com/parnurzeal/gorequest"
     "github.com/PuerkitoBio/goquery"
+
+    "github.com/zeuxisoo/go-contix/models"
 )
 
 type FreeProxyListProxySite struct {
@@ -17,7 +19,7 @@ func (this *FreeProxyListProxySite) Name() (string) {
     return "Free proxy list"
 }
 
-func (this *FreeProxyListProxySite) Fetch() ([]ProxyInfo, error) {
+func (this *FreeProxyListProxySite) Fetch() ([]models.ProxyInfo, error) {
     request := gorequest.New()
     response, _, errs := request.
         Get("http://www.freeproxylists.net/").
@@ -39,7 +41,7 @@ func (this *FreeProxyListProxySite) Fetch() ([]ProxyInfo, error) {
         return nil, err
     }
 
-    var proxyList []ProxyInfo
+    var proxyList []models.ProxyInfo
 
     proxyTable := document.Find("table.DataGrid")
     proxyRows  := proxyTable.Find("tr:nth-child(n+2)")
@@ -51,7 +53,7 @@ func (this *FreeProxyListProxySite) Fetch() ([]ProxyInfo, error) {
         country  := s.Find("td:nth-child(5) img").AttrOr("src", "img/na.gif")
 
         if ip != "" && port != "" {
-            proxyList = append(proxyList, ProxyInfo{
+            proxyList = append(proxyList, models.ProxyInfo{
                 IP      : decodeIp(ip),
                 Port    : port,
                 Protocol: strings.ToLower(protocol),

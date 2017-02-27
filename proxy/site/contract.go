@@ -1,13 +1,10 @@
 package site
 
+import (
+    "github.com/zeuxisoo/go-contix/models"
+)
+
 type Contract interface {
     Name() (string)
-    Fetch() ([]ProxyInfo, error)
-}
-
-type ProxyInfo struct {
-    IP          string
-    Port        string
-    Protocol    string
-    Country     string
+    Fetch() ([]models.ProxyInfo, error)
 }

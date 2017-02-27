@@ -5,6 +5,8 @@ import (
 
     "github.com/parnurzeal/gorequest"
     "github.com/PuerkitoBio/goquery"
+
+    "github.com/zeuxisoo/go-contix/models"
 )
 
 type XiCiDaiLiProxySite struct {
@@ -14,7 +16,7 @@ func (this *XiCiDaiLiProxySite) Name() (string) {
     return "Xi Ci Dai Li"
 }
 
-func (this *XiCiDaiLiProxySite) Fetch() ([]ProxyInfo, error) {
+func (this *XiCiDaiLiProxySite) Fetch() ([]models.ProxyInfo, error) {
     request := gorequest.New()
     response, _, errs := request.
         Get("http://www.xicidaili.com/nn/").
@@ -29,7 +31,7 @@ func (this *XiCiDaiLiProxySite) Fetch() ([]ProxyInfo, error) {
         return nil, err
     }
 
-    var proxyList []ProxyInfo
+    var proxyList []models.ProxyInfo
 
     proxyTable := document.Find("table#ip_list")
     proxyRows  := proxyTable.Find("tr:nth-child(n+2)")
@@ -41,7 +43,7 @@ func (this *XiCiDaiLiProxySite) Fetch() ([]ProxyInfo, error) {
         protocol := s.Find("td:nth-child(6)").Text()
 
         if ip != "" && port != "" {
-            proxyList = append(proxyList, ProxyInfo{
+            proxyList = append(proxyList, models.ProxyInfo{
                 IP      : ip,
                 Port    : port,
                 Protocol: strings.ToLower(protocol),

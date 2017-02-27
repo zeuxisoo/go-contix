@@ -6,6 +6,8 @@ import (
     "encoding/json"
 
     "github.com/parnurzeal/gorequest"
+
+    "github.com/zeuxisoo/go-contix/models"
 )
 
 type GimmeProxyWebsites struct {
@@ -42,11 +44,11 @@ func (this *GimmeProxySite) Name() (string) {
     return "Gimme"
 }
 
-func (this *GimmeProxySite) Fetch() ([]ProxyInfo, error) {
+func (this *GimmeProxySite) Fetch() ([]models.ProxyInfo, error) {
     request    := gorequest.New()
     gimmeProxy := GimmeProxy{}
 
-    var proxyList []ProxyInfo
+    var proxyList []models.ProxyInfo
     for i := 0; i < 5; i++ {
         _, body, _ := request.Get("https://gimmeproxy.com/api/getProxy").End()
 
@@ -54,7 +56,7 @@ func (this *GimmeProxySite) Fetch() ([]ProxyInfo, error) {
             continue
         }
 
-        proxyList = append(proxyList, ProxyInfo{
+        proxyList = append(proxyList, models.ProxyInfo{
             IP      : gimmeProxy.IP,
             Port    : gimmeProxy.Port,
             Protocol: strings.ToLower(gimmeProxy.Protocol),
