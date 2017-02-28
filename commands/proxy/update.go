@@ -14,6 +14,7 @@ import (
 
     "github.com/zeuxisoo/go-contix/configs"
     "github.com/zeuxisoo/go-contix/models"
+    "github.com/zeuxisoo/go-contix/utils/log"
 )
 
 var CmdProxyUpdate = cli.Command{
@@ -28,10 +29,14 @@ var CmdProxyUpdate = cli.Command{
 func proxyUpdate(cli *cli.Context) error {
     type proxyState models.ProxyState
 
+    log.Infof("Loading fetched proxy file ...")
+
     proxyList, err := readProxyFetchFile()
     if err != nil {
         return err
     }
+
+    log.Infof("Validating fetched proxy list ...")
 
     request := gorequest.New()
 
@@ -60,6 +65,8 @@ func proxyUpdate(cli *cli.Context) error {
                     End()
 
                 if errs != nil {
+                    log.Infof("%s ... %s", "✘", proxy)
+
                     validateProxyResultChannel <- proxyState{
                         Usable: false,
                         Proxy : proxy,
@@ -69,6 +76,8 @@ func proxyUpdate(cli *cli.Context) error {
                 }
 
                 if response.StatusCode == 200 {
+                    log.Infof("%s ... %s", "✔", proxy)
+
                     validateProxyResultChannel <- proxyState{
                         Usable: true,
                         Proxy : proxy,
@@ -92,6 +101,9 @@ func proxyUpdate(cli *cli.Context) error {
         }
     }
 
+    log.Infof("Total usable proxy site: %d", len(passedProxyList))
+    log.Infof("Updating .....")
+
     if len(passedProxyList) > 0 {
         if err := os.Remove(configs.ProxyPoolFilePath); err != nil {
             return err
@@ -108,8 +120,11 @@ func proxyUpdate(cli *cli.Context) error {
                 validatedProxy := fmt.Sprintf("%s\n", proxy)
 
                 if _, err = file.WriteString(validatedProxy); err != nil {
+                    log.Infof("%s ... %s", "✘", proxy)
                     continue
                 }
+
+                log.Infof("%s ... %s", "✔", proxy)
             }
         }
     }
