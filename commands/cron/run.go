@@ -30,9 +30,11 @@ func cronRun(cli *cli.Context) error {
     for i := 0; i < len(cronTask.Tickets); i++ {
         task := cronTask.Tickets[i]
 
-        cronTab.AddFunc(task.Schedule, func() {
-            checkTicketStateTask(task)
-        })
+        if task.Enable == true {
+            cronTab.AddFunc(task.Schedule, func() {
+                checkTicketStateTask(task)
+            })
+        }
     }
 
     cronTab.Start()
