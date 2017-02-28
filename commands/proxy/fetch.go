@@ -8,6 +8,8 @@ import (
     "github.com/codegangsta/cli"
 
     "github.com/zeuxisoo/go-contix/configs"
+    "github.com/zeuxisoo/go-contix/utils/log"
+
     proxySite "github.com/zeuxisoo/go-contix/proxy/site"
 )
 
@@ -40,6 +42,9 @@ var CmdProxyFetch = cli.Command{
 func proxyFetch(ctx *cli.Context) error {
     site := ctx.String("site")
 
+    log.Infof("Proxy site: %s", site)
+    log.Infof("Starting .....")
+
     var theProxySite proxySite.Contract
     switch strings.ToLower(site) {
         case FreeProxyList:
@@ -57,6 +62,8 @@ func proxyFetch(ctx *cli.Context) error {
         return err
     }
 
+    log.Infof("Totoal proxy site: %d", len(proxyList))
+
     if len(proxyList) > 0 {
         if err := os.Remove(configs.ProxyFetchFilePath); err != nil {
             return err
@@ -69,11 +76,15 @@ func proxyFetch(ctx *cli.Context) error {
         defer file.Close()
 
         for _, proxy := range proxyList {
-            ipAndPort := fmt.Sprintf("%s://%s:%s\n", proxy.Protocol, proxy.IP, proxy.Port)
+            ipAndPort := fmt.Sprintf("%s://%s:%s", proxy.Protocol, proxy.IP, proxy.Port)
+            ipAndPortWithNewLine := fmt.Sprintf("%s\n", ipAndPort)
 
-            if _, err = file.WriteString(ipAndPort); err != nil {
+            if _, err = file.WriteString(ipAndPortWithNewLine); err != nil {
+                log.Infof("%s ..... %s", "✘", ipAndPort)
                 continue
             }
+
+            log.Infof("%s ..... %s", "✔", ipAndPort)
         }
     }
 
