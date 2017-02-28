@@ -8,6 +8,7 @@ import (
     "github.com/olekukonko/tablewriter"
 
     "github.com/zeuxisoo/go-contix/configs"
+    "github.com/zeuxisoo/go-contix/utils/log"
 )
 
 var CmdCronList = cli.Command{
@@ -20,10 +21,14 @@ var CmdCronList = cli.Command{
 }
 
 func cronList(cli *cli.Context) error {
+    log.Info("Reading cron task file ...")
+
     cronTask, err := configs.LoadCronTask()
     if err != nil {
         return err
     }
+
+    log.Info("Rendering .....\n")
 
     table := tablewriter.NewWriter(os.Stdout)
     table.SetHeader([]string{ "ID", "Schedule", "Remark", "Enable" })
