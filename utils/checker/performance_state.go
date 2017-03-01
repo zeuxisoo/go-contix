@@ -6,6 +6,7 @@ import (
     "time"
     "encoding/json"
     "math/rand"
+    "crypto/tls"
 
     "github.com/parnurzeal/gorequest"
 
@@ -22,6 +23,7 @@ type PerformanceStateChecker struct {
 
 func NewPerformanceStateChecker() *PerformanceStateChecker {
     request := gorequest.New().
+        TLSClientConfig(&tls.Config{ InsecureSkipVerify: true}).
         Set("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8").
         Set("Accept-Language", "en-US,en;q=0.8").
         Set("Connection", "keep-alive").
