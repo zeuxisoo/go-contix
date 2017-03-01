@@ -1,10 +1,10 @@
 package models
 
 type CronTask struct {
-    Tickets []CronTaskTicket `yaml:"tickets"`
+    Performances []CronTaskPerformance `yaml:"performances"`
 }
 
-type CronTaskTicket struct {
+type CronTaskPerformance struct {
     Id          int     `yaml:"id"`
     Schedule    string  `yaml:"schedule"`
     Remark      string  `yaml:"remark"`

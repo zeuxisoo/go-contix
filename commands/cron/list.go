@@ -33,12 +33,12 @@ func cronList(cli *cli.Context) error {
     table := tablewriter.NewWriter(os.Stdout)
     table.SetHeader([]string{ "ID", "Schedule", "Remark", "Enable" })
 
-    for _, ticket := range cronTask.Tickets {
+    for _, performance := range cronTask.Performances {
         table.Append([]string{
-            strconv.Itoa(ticket.Id),
-            ticket.Schedule,
-            ticket.Remark,
-            toYesOrNo(ticket.Enable),
+            strconv.Itoa(performance.Id),
+            performance.Schedule,
+            performance.Remark,
+            toYesOrNo(performance.Enable),
         })
     }
 

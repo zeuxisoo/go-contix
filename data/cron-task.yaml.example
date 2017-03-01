@@ -1,9 +1,11 @@
-tickets:
+performances:
 - id: 31590
-  schedule: "* */5 * * * *"
+  schedule: "*/10 * * * * *"
   remark: "This is a remark one"
   enable: true
+  timeout: 3000
 - id: 30924
-  schedule: "* */10 * * * *"
+  schedule: "*/15 * * * * *"
   remark: "This is a remark two"
   enable: false
+  timeout: 5000

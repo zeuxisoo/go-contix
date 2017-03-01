@@ -33,8 +33,8 @@ func cronRun(cli *cli.Context) error {
 
     cronTab := cron.New()
 
-    for i := 0; i < len(cronTask.Tickets); i++ {
-        task := cronTask.Tickets[i]
+    for i := 0; i < len(cronTask.Performances); i++ {
+        task := cronTask.Performances[i]
 
         if task.Enable == true {
             cronTab.AddFunc(task.Schedule, func() {
@@ -57,7 +57,7 @@ func cronRun(cli *cli.Context) error {
     return nil
 }
 
-func checkPerformanceStateTask(id int, task models.CronTaskTicket) error {
+func checkPerformanceStateTask(id int, task models.CronTaskPerformance) error {
     log.Infof("Name: %s", task.Remark)
     log.Infof("Checking .....")
 
