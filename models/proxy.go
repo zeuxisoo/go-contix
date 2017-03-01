@@ -6,3 +6,8 @@ type ProxyInfo struct {
     Protocol    string
     Country     string
 }
+
+type ProxyState struct {
+    Usable  bool
+    Proxy   string
+}
