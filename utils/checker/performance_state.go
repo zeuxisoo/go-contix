@@ -12,35 +12,35 @@ import (
     "github.com/zeuxisoo/go-contix/models"
 )
 
-type TicketStateChecker struct {
+type PerformanceStateChecker struct {
     Agent               *gorequest.SuperAgent
     PerformanceList     []models.PerformanceList
 
-    TicketId            string
+    PerformanceId       string
     PerPage             int
 }
 
-func NewTicketStateChecker() *TicketStateChecker {
+func NewPerformanceStateChecker() *PerformanceStateChecker {
     request := gorequest.New().
         Set("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8").
         Set("Accept-Language", "en-US,en;q=0.8").
         Set("Connection", "keep-alive").
         Set("User-Agent", userAgent())
 
-    return &TicketStateChecker{
+    return &PerformanceStateChecker{
         Agent          : request,
         PerformanceList: []models.PerformanceList{},
-        TicketId       : "",
+        PerformanceId  : "",
         PerPage        : 5,
     }
 }
 
-func (this *TicketStateChecker) SetTicketId(id string) *TicketStateChecker {
-    this.TicketId = id
+func (this *PerformanceStateChecker) SetPerformanceId(id string) *PerformanceStateChecker {
+    this.PerformanceId = id
     return this
 }
 
-func (this *TicketStateChecker) SetProxy(proxy string) *TicketStateChecker {
+func (this *PerformanceStateChecker) SetProxy(proxy string) *PerformanceStateChecker {
     if proxy != "" {
         this.Agent = this.Agent.Proxy(proxy)
     }
@@ -48,7 +48,7 @@ func (this *TicketStateChecker) SetProxy(proxy string) *TicketStateChecker {
     return this
 }
 
-func (this *TicketStateChecker) GetPerformanceList() ([]models.PerformanceList, error) {
+func (this *PerformanceStateChecker) GetPerformanceList() ([]models.PerformanceList, error) {
     if _, err := this.makeAuth(); err != nil {
         return nil, err
     }
@@ -61,7 +61,7 @@ func (this *TicketStateChecker) GetPerformanceList() ([]models.PerformanceList, 
 }
 
 
-func (this TicketStateChecker) makeAuth() (string, error) {
+func (this PerformanceStateChecker) makeAuth() (string, error) {
     response, body, errs := this.Agent.Get("http://www.urbtix.hk/").End()
     if errs != nil {
         return "", errs[0]
@@ -78,9 +78,9 @@ func (this TicketStateChecker) makeAuth() (string, error) {
     return body, nil
 }
 
-func (this *TicketStateChecker) fetchEvent(pageNo int) ([]models.PerformanceList, error) {
+func (this *PerformanceStateChecker) fetchEvent(pageNo int) ([]models.PerformanceList, error) {
     timestamp := time.Now().Unix()
-    targetUrl := fmt.Sprintf("https://ticket.urbtix.hk/internet/json/event/%s/performance/%d/%d/perf.json?locale=zh_TW&%d", this.TicketId, this.PerPage, pageNo, timestamp)
+    targetUrl := fmt.Sprintf("https://ticket.urbtix.hk/internet/json/event/%s/performance/%d/%d/perf.json?locale=zh_TW&%d", this.PerformanceId, this.PerPage, pageNo, timestamp)
 
     _, body, errs := this.Agent.Get(targetUrl).End()
     if errs != nil {

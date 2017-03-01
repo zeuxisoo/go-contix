@@ -1,8 +1,8 @@
 package cron
 
 import (
-    "fmt"
     "strconv"
+    "math/rand"
 
     "github.com/codegangsta/cli"
     "github.com/robfig/cron"
@@ -10,6 +10,8 @@ import (
     "github.com/zeuxisoo/go-contix/configs"
     "github.com/zeuxisoo/go-contix/models"
     "github.com/zeuxisoo/go-contix/utils/checker"
+    "github.com/zeuxisoo/go-contix/utils/log"
+    "github.com/zeuxisoo/go-contix/utils/file"
 )
 
 var CmdCronRun = cli.Command{
@@ -34,7 +36,9 @@ func cronRun(cli *cli.Context) error {
 
         if task.Enable == true {
             cronTab.AddFunc(task.Schedule, func() {
-                checkTicketStateTask(task)
+                if err := checkPerformanceStateTask(task); err != nil {
+                    log.Infof("✘ ... %s", err)
+                }
             })
         }
     }
@@ -45,17 +49,47 @@ func cronRun(cli *cli.Context) error {
     return nil
 }
 
-func checkTicketStateTask(task models.CronTaskTicket) {
-    fmt.Println(task.Remark)
+func checkPerformanceStateTask(task models.CronTaskTicket) error {
+    log.Infof("Name: %s", task.Remark)
+    log.Infof("Checking .....")
 
-    ticketStateChecker := checker.NewTicketStateChecker().
-        SetTicketId(strconv.Itoa(task.Id)).
-        SetProxy("")
-
-    performances, err := ticketStateChecker.GetPerformanceList()
+    lines, err := file.ReadByLines(configs.ProxyPoolFilePath)
     if err != nil {
-
+        log.Infof("✘ ... Cannot read the proxy pool file: %s", configs.ProxyPoolFilePath)
+        return err
     }
 
-    fmt.Println(performances)
+    log.Infof("Proxy pool size: %d", len(lines))
+    log.Infof("Shuffling .....")
+
+    proxy := ""
+    if len(lines) > 0 {
+        proxy = lines[rand.Intn(len(lines))]
+    }
+
+    if proxy == "" {
+        log.Infof("✘ ... No more proxy can pick")
+    }else{
+        log.Infof("✔ ... Picked proxy: %s", proxy)
+    }
+
+    performanceStateChecker := checker.NewPerformanceStateChecker().
+        SetPerformanceId(strconv.Itoa(task.Id)).
+        SetProxy(proxy)
+
+    performances, err := performanceStateChecker.GetPerformanceList()
+    if err != nil {
+        log.Infof("✘ ... Cannnot get the performance list")
+        return err
+    }
+
+    for _, performance := range performances {
+        if performance.Status == "AVAILABLE" || performance.Status == "LIMIT" {
+            log.Infof("✔ ... Tickets are %s", performance.Status)
+        }else{
+            log.Infof("✘ ... Tickets are %s", performance.Status)
+        }
+    }
+
+    return nil
 }
