@@ -51,6 +51,14 @@ func (this *PerformanceStateChecker) SetProxy(proxy string) *PerformanceStateChe
     return this
 }
 
+func (this *PerformanceStateChecker) SetTimeout(timeout int) *PerformanceStateChecker {
+    if (timeout > 1000) {
+        this.Agent = this.Agent.Timeout(time.Duration(timeout) * time.Millisecond)
+    }
+
+    return this
+}
+
 func (this *PerformanceStateChecker) GetPerformanceList() ([]models.PerformanceList, error) {
     if _, err := this.makeAuth(); err != nil {
         return nil, err

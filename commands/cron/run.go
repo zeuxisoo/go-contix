@@ -83,7 +83,8 @@ func checkPerformanceStateTask(id int, task models.CronTaskTicket) error {
 
     performanceStateChecker := checker.NewPerformanceStateChecker().
         SetPerformanceId(strconv.Itoa(task.Id)).
-        SetProxy(proxy)
+        SetProxy(proxy).
+        SetTimeout(task.Timeout)
 
     performances, err := performanceStateChecker.GetPerformanceList()
     if err != nil {

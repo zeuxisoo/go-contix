@@ -9,4 +9,5 @@ type CronTaskTicket struct {
     Schedule    string  `yaml:"schedule"`
     Remark      string  `yaml:"remark"`
     Enable      bool    `yaml:"enable"`
+    Timeout     int     `yaml:"timeout"`
 }
