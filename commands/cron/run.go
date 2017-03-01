@@ -2,12 +2,14 @@ package cron
 
 import (
     "fmt"
+    "strconv"
 
     "github.com/codegangsta/cli"
     "github.com/robfig/cron"
 
     "github.com/zeuxisoo/go-contix/configs"
     "github.com/zeuxisoo/go-contix/models"
+    "github.com/zeuxisoo/go-contix/utils/checker"
 )
 
 var CmdCronRun = cli.Command{
@@ -44,6 +46,16 @@ func cronRun(cli *cli.Context) error {
 }
 
 func checkTicketStateTask(task models.CronTaskTicket) {
-    // TODO: implement check ticket state action
     fmt.Println(task.Remark)
+
+    ticketStateChecker := checker.NewTicketStateChecker().
+        SetTicketId(strconv.Itoa(task.Id)).
+        SetProxy("")
+
+    events, err := ticketStateChecker.GetEventList()
+    if err != nil {
+
+    }
+
+    fmt.Println(events)
 }
