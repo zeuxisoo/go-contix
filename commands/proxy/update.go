@@ -80,6 +80,11 @@ func proxyUpdate(cli *cli.Context) error {
                         Usable: true,
                         Proxy : proxy,
                     }
+                }else{
+                    validateProxyResultChannel <- proxyState{
+                        Usable: false,
+                        Proxy : proxy,
+                    }
                 }
             }
         }()
