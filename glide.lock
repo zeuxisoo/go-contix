@@ -1,10 +1,12 @@
-hash: a7077b46219fdb0b519d912d5c7d6055100a13580a157e1e706af8307a33ba18
-updated: 2017-02-28T14:16:05.498429868+08:00
+hash: 4d7089b1b5825ab217a5a195d9a9448e9bd6094cb0d827dbc3e17d644e9b9f86
+updated: 2017-03-01T15:08:59.704186025+08:00
 imports:
 - name: github.com/andybalholm/cascadia
   version: 349dd0209470eabd9514242c688c403c0926d266
 - name: github.com/codegangsta/cli
   version: 0bdeddeeb0f650497d603c4ad7b20cfe685682f6
+- name: github.com/fatih/color
+  version: 7824417a424b65227be8ac9b14d545a7f3e6c3f0
 - name: github.com/mattn/go-runewidth
   version: 14207d285c6c197daabb5c9793d63e7af9ab2d50
 - name: github.com/moul/http2curl
@@ -28,7 +30,7 @@ imports:
   - html/atom
   - publicsuffix
 - name: golang.org/x/sys
-  version: e4594059fe4cde2daf423055a596c2cd1e6c9adf
+  version: 76cc09b634294339fa19ec41b5f2a0b3932cea8b
   subpackages:
   - unix
 - name: gopkg.in/yaml.v2

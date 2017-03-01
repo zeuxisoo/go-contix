@@ -1,11 +1,13 @@
 package cron
 
 import (
+    "fmt"
     "strconv"
     "math/rand"
 
     "github.com/codegangsta/cli"
     "github.com/robfig/cron"
+    "github.com/fatih/color"
 
     "github.com/zeuxisoo/go-contix/configs"
     "github.com/zeuxisoo/go-contix/models"
@@ -36,7 +38,11 @@ func cronRun(cli *cli.Context) error {
 
         if task.Enable == true {
             cronTab.AddFunc(task.Schedule, func() {
-                if err := checkPerformanceStateTask(task); err != nil {
+                yellow := color.New(color.FgYellow).SprintFunc()
+
+                log.Infof(yellow(fmt.Sprintf("Task %d", i)))
+
+                if err := checkPerformanceStateTask(i, task); err != nil {
                     log.Infof("✘ ... %s", err)
                 }
             })
@@ -49,7 +55,7 @@ func cronRun(cli *cli.Context) error {
     return nil
 }
 
-func checkPerformanceStateTask(task models.CronTaskTicket) error {
+func checkPerformanceStateTask(id int, task models.CronTaskTicket) error {
     log.Infof("Name: %s", task.Remark)
     log.Infof("Checking .....")
 
@@ -79,9 +85,11 @@ func checkPerformanceStateTask(task models.CronTaskTicket) error {
 
     performances, err := performanceStateChecker.GetPerformanceList()
     if err != nil {
-        log.Infof("✘ ... Cannnot get the performance list")
+        log.Infof("✘ ... Cannot get the performance list")
         return err
     }
+
+    log.Infof("✔ ... Total performances: %d", len(performances))
 
     for _, performance := range performances {
         if performance.Status == "AVAILABLE" || performance.Status == "LIMIT" {
@@ -90,6 +98,8 @@ func checkPerformanceStateTask(task models.CronTaskTicket) error {
             log.Infof("✘ ... Tickets are %s", performance.Status)
         }
     }
+
+    log.Infof("done")
 
     return nil
 }
