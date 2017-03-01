@@ -31,6 +31,10 @@ func cronRun(cli *cli.Context) error {
         return err
     }
 
+    yellow  := color.New(color.FgYellow).SprintFunc()
+    red     := color.New(color.FgRed).SprintFunc()
+    cyan    := color.New(color.FgCyan).SprintFunc()
+    green   := color.New(color.FgGreen).SprintFunc()
     cronTab := cron.New()
 
     for i := 0; i < len(cronTask.Performances); i++ {
@@ -38,15 +42,18 @@ func cronRun(cli *cli.Context) error {
 
         if task.Enable == true {
             cronTab.AddFunc(task.Schedule, func() {
-                yellow := color.New(color.FgYellow).SprintFunc()
+                log.Infof(yellow(fmt.Sprintf("Remark: %s, Checking ...", task.Remark)))
 
-                log.Infof(yellow(fmt.Sprintf("Task %d", i)))
-
-                if err := checkPerformanceStateTask(i, task); err != nil {
-                    log.Infof("✘ ... %s", err)
+                available, err := checkPerformanceStateTask(i, task);
+                if err != nil {
+                    log.Infof(red(fmt.Sprintf("%s: %s", task.Remark, err)))
                 }
 
-                log.Infof("Done")
+                if available {
+                    log.Infof(green(fmt.Sprintf("Remark: %s, State: ✔", task.Remark)))
+                }else{
+                    log.Infof(cyan(fmt.Sprintf("Remark: %s, State: ✘", task.Remark)))
+                }
             })
         }
     }
@@ -57,28 +64,15 @@ func cronRun(cli *cli.Context) error {
     return nil
 }
 
-func checkPerformanceStateTask(id int, task models.CronTaskPerformance) error {
-    log.Infof("Name: %s", task.Remark)
-    log.Infof("Checking .....")
-
+func checkPerformanceStateTask(id int, task models.CronTaskPerformance) (bool, error) {
     lines, err := file.ReadByLines(configs.ProxyPoolFilePath)
     if err != nil {
-        log.Infof("✘ ... Cannot read the proxy pool file: %s", configs.ProxyPoolFilePath)
-        return err
+        return false, err
     }
-
-    log.Infof("Proxy pool size: %d", len(lines))
-    log.Infof("Shuffling .....")
 
     proxy := ""
     if len(lines) > 0 {
         proxy = lines[rand.Intn(len(lines))]
-    }
-
-    if proxy == "" {
-        log.Infof("✘ ... No more proxy can pick")
-    }else{
-        log.Infof("✔ ... Picked proxy: %s", proxy)
     }
 
     performanceStateChecker := checker.NewPerformanceStateChecker().
@@ -88,19 +82,16 @@ func checkPerformanceStateTask(id int, task models.CronTaskPerformance) error {
 
     performances, err := performanceStateChecker.GetPerformanceList()
     if err != nil {
-        log.Infof("✘ ... Cannot get the performance list")
-        return err
+        return false, err
     }
 
-    log.Infof("✔ ... Total performances: %d", len(performances))
-
+    isAvailable := false
     for _, performance := range performances {
         if performance.Status == "AVAILABLE" || performance.Status == "LIMIT" {
-            log.Infof("✔ ... Tickets are %s", performance.Status)
-        }else{
-            log.Infof("✘ ... Tickets are %s", performance.Status)
+            isAvailable = true
+            break
         }
     }
 
-    return nil
+    return isAvailable, nil
 }
