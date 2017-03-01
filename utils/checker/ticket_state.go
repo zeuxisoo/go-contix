@@ -48,7 +48,7 @@ func (this *TicketStateChecker) SetProxy(proxy string) *TicketStateChecker {
     return this
 }
 
-func (this *TicketStateChecker) GetEventList() ([]models.PerformanceList, error) {
+func (this *TicketStateChecker) GetPerformanceList() ([]models.PerformanceList, error) {
     if _, err := this.makeAuth(); err != nil {
         return nil, err
     }

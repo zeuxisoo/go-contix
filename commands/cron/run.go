@@ -52,10 +52,10 @@ func checkTicketStateTask(task models.CronTaskTicket) {
         SetTicketId(strconv.Itoa(task.Id)).
         SetProxy("")
 
-    events, err := ticketStateChecker.GetEventList()
+    performances, err := ticketStateChecker.GetPerformanceList()
     if err != nil {
 
     }
 
-    fmt.Println(events)
+    fmt.Println(performances)
 }
