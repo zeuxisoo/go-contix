@@ -45,6 +45,8 @@ func cronRun(cli *cli.Context) error {
                 if err := checkPerformanceStateTask(i, task); err != nil {
                     log.Infof("✘ ... %s", err)
                 }
+
+                log.Infof("Done")
             })
         }
     }
@@ -98,8 +100,6 @@ func checkPerformanceStateTask(id int, task models.CronTaskTicket) error {
             log.Infof("✘ ... Tickets are %s", performance.Status)
         }
     }
-
-    log.Infof("done")
 
     return nil
 }
