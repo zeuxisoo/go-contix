@@ -9,8 +9,13 @@ var (
 )
 
 func init() {
-    log.Formatter = new(logrus.TextFormatter)
-    log.Level     = logrus.DebugLevel
+    log.Formatter = &logrus.TextFormatter{
+        ForceColors: true,
+        TimestampFormat: "2006-01-02 15:04:05",
+        FullTimestamp: true,
+    }
+
+    log.Level = logrus.DebugLevel
 }
 
 func Info(args ...interface{}) {
