@@ -1,6 +1,7 @@
 package cron
 
 import (
+    "fmt"
     "os"
     "strconv"
 
@@ -31,7 +32,7 @@ func cronList(cli *cli.Context) error {
     log.Info("Rendering .....\n")
 
     table := tablewriter.NewWriter(os.Stdout)
-    table.SetHeader([]string{ "ID", "Schedule", "Remark", "Enable" })
+    table.SetHeader([]string{ "ID", "Schedule", "Remark", "Enable", "Proxy" })
 
     for _, performance := range cronTask.Performances {
         table.Append([]string{
@@ -39,6 +40,12 @@ func cronList(cli *cli.Context) error {
             performance.Schedule,
             performance.Remark,
             toYesOrNo(performance.Enable),
+            fmt.Sprintf(
+                "%s,%s,%s",
+                toYesOrNo(performance.Proxy.Enable),
+                performance.Proxy.Method,
+                toNAString(performance.Proxy.Server),
+            ),
         })
     }
 
@@ -53,4 +60,12 @@ func toYesOrNo(enable bool) string {
     }else{
         return "✘"
     }
+}
+
+func toNAString(text string) string {
+    if text == "" {
+        return "n/a"
+    }
+
+    return text
 }

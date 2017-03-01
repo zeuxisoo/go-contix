@@ -70,6 +70,7 @@ func checkPerformanceStateTask(id int, task models.CronTaskPerformance) (bool, e
         return false, err
     }
 
+    // TODO: support cron task proxy options
     proxy := ""
     if len(lines) > 0 {
         proxy = lines[rand.Intn(len(lines))]
