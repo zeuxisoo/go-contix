@@ -1,7 +1,6 @@
 package cron
 
 import (
-    "fmt"
     "strconv"
     "strings"
     "math/rand"
@@ -33,10 +32,10 @@ func cronRun(cli *cli.Context) error {
         return err
     }
 
-    yellow  := color.New(color.FgYellow).SprintFunc()
-    red     := color.New(color.FgRed).SprintFunc()
-    cyan    := color.New(color.FgCyan).SprintFunc()
-    green   := color.New(color.FgGreen).SprintFunc()
+    yellow  := color.New(color.FgYellow).SprintfFunc()
+    red     := color.New(color.FgRed).SprintfFunc()
+    cyan    := color.New(color.FgCyan).SprintfFunc()
+    green   := color.New(color.FgGreen).SprintfFunc()
     cronTab := cron.New()
 
     for i := 0; i < len(cronTask.Performances); i++ {
@@ -44,23 +43,23 @@ func cronRun(cli *cli.Context) error {
 
         if task.Enable == true {
             cronTab.AddFunc(task.Schedule, func() {
-                log.Infof(yellow(fmt.Sprintf("Remark: %s, Checking ...", task.Remark)))
+                log.Infof(yellow("Remark: %s, Checking ...", task.Remark))
 
                 available, performances, err := checkPerformanceStateTask(i, task);
                 if err != nil {
-                    log.Infof(red(fmt.Sprintf("Remark: %s, Check: ✘, error: %v", task.Remark, err)))
+                    log.Infof(red("Remark: %s, Check: ✘, error: %v", task.Remark, err))
                 }
 
                 if available {
-                    log.Infof(green(fmt.Sprintf("Remark: %s, Status: ✔", task.Remark)))
+                    log.Infof(green("Remark: %s, Status: ✔", task.Remark))
 
                     if err := sendMailNotification(cronTask, task, performances); err != nil {
-                        log.Infof(red(fmt.Sprintf("Remark: %s, Mail: ✘, error: %v", task.Remark, err)))
+                        log.Infof(red("Remark: %s, Mail: ✘, error: %v", task.Remark, err))
                     }else{
-                        log.Infof(green(fmt.Sprintf("Remark: %s, Mail: ✔", task.Remark)))
+                        log.Infof(green("Remark: %s, Mail: ✔", task.Remark))
                     }
                 }else{
-                    log.Infof(cyan(fmt.Sprintf("Remark: %s, Status: ✘", task.Remark)))
+                    log.Infof(cyan("Remark: %s, Status: ✘", task.Remark))
                 }
             })
         }
