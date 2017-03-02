@@ -15,6 +15,7 @@ import (
     "github.com/zeuxisoo/go-contix/utils/checker"
     "github.com/zeuxisoo/go-contix/utils/log"
     "github.com/zeuxisoo/go-contix/utils/file"
+    "github.com/zeuxisoo/go-contix/utils/mail"
 )
 
 var CmdCronRun = cli.Command{
@@ -45,15 +46,21 @@ func cronRun(cli *cli.Context) error {
             cronTab.AddFunc(task.Schedule, func() {
                 log.Infof(yellow(fmt.Sprintf("Remark: %s, Checking ...", task.Remark)))
 
-                available, err := checkPerformanceStateTask(i, task);
+                available, performances, err := checkPerformanceStateTask(i, task);
                 if err != nil {
-                    log.Infof(red(fmt.Sprintf("%s: %s", task.Remark, err)))
+                    log.Infof(red(fmt.Sprintf("Remark: %s, Check: ✘, error: %v", task.Remark, err)))
                 }
 
                 if available {
-                    log.Infof(green(fmt.Sprintf("Remark: %s, State: ✔", task.Remark)))
+                    log.Infof(green(fmt.Sprintf("Remark: %s, Status: ✔", task.Remark)))
+
+                    if err := sendMailNotification(cronTask, task, performances); err != nil {
+                        log.Infof(red(fmt.Sprintf("Remark: %s, Mail: ✘, error: %v", task.Remark, err)))
+                    }else{
+                        log.Infof(green(fmt.Sprintf("Remark: %s, Mail: ✔", task.Remark)))
+                    }
                 }else{
-                    log.Infof(cyan(fmt.Sprintf("Remark: %s, State: ✘", task.Remark)))
+                    log.Infof(cyan(fmt.Sprintf("Remark: %s, Status: ✘", task.Remark)))
                 }
             })
         }
@@ -65,10 +72,10 @@ func cronRun(cli *cli.Context) error {
     return nil
 }
 
-func checkPerformanceStateTask(id int, task models.CronTaskPerformance) (bool, error) {
+func checkPerformanceStateTask(id int, task models.CronTaskPerformance) (bool, []models.PerformanceList, error) {
     lines, err := file.ReadByLines(configs.ProxyPoolFilePath)
     if err != nil {
-        return false, err
+        return false, []models.PerformanceList{}, err
     }
 
     proxy := ""
@@ -86,18 +93,53 @@ func checkPerformanceStateTask(id int, task models.CronTaskPerformance) (bool, e
         SetProxy(proxy).
         SetTimeout(task.Timeout)
 
-    performances, err := performanceStateChecker.GetPerformanceList()
+    performanceList, err := performanceStateChecker.GetPerformanceList()
     if err != nil {
-        return false, err
+        return false, performanceList, err
     }
 
     isAvailable := false
-    for _, performance := range performances {
+    for _, performance := range performanceList {
         if performance.Status == "AVAILABLE" || performance.Status == "LIMIT" {
             isAvailable = true
             break
         }
     }
 
-    return isAvailable, nil
+    return isAvailable, performanceList, nil
+}
+
+func sendMailNotification(cronTask models.CronTask, task models.CronTaskPerformance, performanceList []models.PerformanceList) error {
+    var templatePerformances []models.MailNotificationDataPerformance
+    for _, performance := range performanceList {
+        templatePerformances = append(
+            templatePerformances,
+            models.MailNotificationDataPerformance{
+                Name: performance.Name,
+                State: performance.Status,
+            },
+        )
+    }
+
+    templateData := models.MailNotificationData{
+        Name: task.Remark,
+        Performances: templatePerformances,
+    }
+
+    mailNotificationContent, err := mail.RenderMailNotification(templateData)
+    if err != nil {
+        return err
+    }
+
+    _, _, err = mail.NewMailgun(cronTask.Mail.Mailgun.Domain, cronTask.Mail.Mailgun.ApiKey, "",).
+        SetSender(cronTask.Mail.Sender).
+        SetRecipient(cronTask.Mail.Recipient).
+        SetSubject(cronTask.Mail.Subject).
+        SetContent(mailNotificationContent).
+        Send()
+    if err != nil {
+        return err
+    }
+
+    return nil
 }
