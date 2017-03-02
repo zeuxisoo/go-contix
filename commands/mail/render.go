@@ -5,6 +5,7 @@ import (
 
     "github.com/codegangsta/cli"
 
+    "github.com/zeuxisoo/go-contix/models"
     "github.com/zeuxisoo/go-contix/utils/log"
     "github.com/zeuxisoo/go-contix/utils/mail"
 )
@@ -18,25 +19,15 @@ var CmdMailRender = cli.Command{
     },
 }
 
-type Dummy struct {
-    Name            string
-    Performances    []DummyPerformance
-}
-
-type DummyPerformance struct {
-    Name    string
-    State   string
-}
-
 func mailRender(cli *cli.Context) error {
     log.Info("Reading notification mail content ...")
     log.Info("Rendering .....\n")
 
-    dummy := Dummy{
+    dummy := models.MailNotificationData{
         Name: "Title",
-        Performances: []DummyPerformance{
-            DummyPerformance{ Name: "A Performance", State: "YES" },
-            DummyPerformance{ Name: "B Performance", State: "YES" },
+        Performances: []models.MailNotificationDataPerformance{
+            models.MailNotificationDataPerformance{ Name: "A Performance", State: "YES" },
+            models.MailNotificationDataPerformance{ Name: "B Performance", State: "YES" },
         },
     }
 
