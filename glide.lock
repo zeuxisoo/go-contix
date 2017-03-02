@@ -1,5 +1,5 @@
-hash: 4d7089b1b5825ab217a5a195d9a9448e9bd6094cb0d827dbc3e17d644e9b9f86
-updated: 2017-03-01T15:08:59.704186025+08:00
+hash: b663b9dcaf2eed20bd78c107c87818c6b1ced216c6ad010ef12b9bb3c1ea9790
+updated: 2017-03-02T13:34:33.661467459+08:00
 imports:
 - name: github.com/andybalholm/cascadia
   version: 349dd0209470eabd9514242c688c403c0926d266
@@ -7,6 +7,12 @@ imports:
   version: 0bdeddeeb0f650497d603c4ad7b20cfe685682f6
 - name: github.com/fatih/color
   version: 7824417a424b65227be8ac9b14d545a7f3e6c3f0
+- name: github.com/mattn/go-colorable
+  version: 5411d3eea5978e6cdc258b30de592b60df6aba96
+  repo: https://github.com/mattn/go-colorable
+- name: github.com/mattn/go-isatty
+  version: dda3de49cbfcec471bd7a70e6cc01fcc3ff90109
+  repo: https://github.com/mattn/go-isatty
 - name: github.com/mattn/go-runewidth
   version: 14207d285c6c197daabb5c9793d63e7af9ab2d50
 - name: github.com/moul/http2curl
@@ -30,9 +36,12 @@ imports:
   - html/atom
   - publicsuffix
 - name: golang.org/x/sys
-  version: 76cc09b634294339fa19ec41b5f2a0b3932cea8b
+  version: e24f485414aeafb646f6fca458b0bf869c0880a1
+  repo: https://go.googlesource.com/sys
   subpackages:
   - unix
+- name: gopkg.in/mailgun/mailgun-go.v1
+  version: a4002e2df2e8ca2da6a6fbb4a72871b504e49f50
 - name: gopkg.in/yaml.v2
   version: a3f3340b5840cee44f372bddb5880fcbc419b46a
 testImports: []

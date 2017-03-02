@@ -5,6 +5,7 @@ import (
 
     "github.com/zeuxisoo/go-contix/configs"
     "github.com/zeuxisoo/go-contix/utils/log"
+    "github.com/zeuxisoo/go-contix/utils/mail"
 )
 
 var CmdMailSend = cli.Command{
@@ -24,10 +25,19 @@ func mailSend(cli *cli.Context) error {
         return err
     }
 
-    log.Info("Sending .....\n")
+    log.Info("Sending .....")
 
-    // TODO: send dummy mail
-    log.Info(cronTask)
+    response, id, err := mail.NewMailgun(cronTask.Mail.Mailgun.Domain, cronTask.Mail.Mailgun.ApiKey, "",).
+        SetSender(cronTask.Mail.Sender).
+        SetRecipient(cronTask.Mail.Recipient).
+        SetSubject(cronTask.Mail.Subject).
+        SetContent("This is a test mail sent from contix").
+        Send()
+    if err != nil {
+        return err
+    }
+
+    log.Infof("ID: %s, Response: %s", id, response)
 
     return nil
 }
