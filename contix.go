@@ -20,6 +20,7 @@ func main() {
     app.Commands = []cli.Command{
         commands.CmdProxy,
         commands.CmdCron,
+        commands.CmdMail,
     }
     app.Flags = append(app.Flags, []cli.Flag{}...)
     app.Run(os.Args)

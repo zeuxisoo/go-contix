@@ -1,7 +1,8 @@
 package models
 
 type CronTask struct {
-    Performances []CronTaskPerformance `yaml:"performances"`
+    Performances []CronTaskPerformance  `yaml:"performances"`
+    Mail         CronTaskMail           `yaml:"mail"`
 }
 
 type CronTaskPerformance struct {
@@ -17,4 +18,16 @@ type CronTaskPerformanceProxy struct {
     Enable  bool    `yaml:"enable"`
     Method  string  `yaml:"method"`
     Server  string  `yaml:"server"`
+}
+
+type CronTaskMail struct {
+    Sender      string               `yaml:"sender"`
+    Recipient   string               `yaml:"recipient"`
+    Subject     string               `yaml:"subject"`
+    Mailgun     CronTaskMailMailgun  `yaml:"mailgun"`
+}
+
+type CronTaskMailMailgun struct {
+    Domain string `yaml:"domain"`
+    ApiKey string `yaml:"api_key"`
 }

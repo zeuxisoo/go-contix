@@ -17,3 +17,11 @@ performances:
     enable: true
     method: "custom"                # support type: pool, custom
     server: "http://127.0.0.1:8080" # like: http://127.0.0.1:8080, only for custom method
+
+mail:
+  sender: "no-reply@mailgun.example.com"
+  recipient: "hello@example.com"
+  subject: "The notification of performance state"
+  mailgun:
+    domain: "mailgun.example.com"
+    api_key: "key-xxxxxxxxxxxxxxxxx"
