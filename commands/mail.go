@@ -12,5 +12,6 @@ var CmdMail = cli.Command{
     Description: "The tools provide you can to send the dummy mail",
     Subcommands: []cli.Command{
         mail.CmdMailSend,
+        mail.CmdMailRender,
     },
 }
