@@ -3,6 +3,7 @@ package cron
 import (
     "fmt"
     "strconv"
+    "strings"
     "math/rand"
 
     "github.com/codegangsta/cli"
@@ -70,10 +71,14 @@ func checkPerformanceStateTask(id int, task models.CronTaskPerformance) (bool, e
         return false, err
     }
 
-    // TODO: support cron task proxy options
     proxy := ""
-    if len(lines) > 0 {
-        proxy = lines[rand.Intn(len(lines))]
+    if task.Proxy.Enable && len(lines) > 0 {
+        switch strings.ToLower(task.Proxy.Method) {
+            case "pool":
+                proxy = lines[rand.Intn(len(lines))]
+            case "custom":
+                proxy = task.Proxy.Server
+        }
     }
 
     performanceStateChecker := checker.NewPerformanceStateChecker().
