@@ -2,6 +2,7 @@ package log
 
 import (
     "github.com/Sirupsen/logrus"
+    "github.com/mattn/go-colorable"
 )
 
 var (
@@ -16,6 +17,8 @@ func init() {
     }
 
     log.Level = logrus.DebugLevel
+
+    log.Out = colorable.NewColorableStdout()
 }
 
 func Info(args ...interface{}) {

@@ -1,5 +1,5 @@
-hash: b663b9dcaf2eed20bd78c107c87818c6b1ced216c6ad010ef12b9bb3c1ea9790
-updated: 2017-03-02T13:34:33.661467459+08:00
+hash: 700d170192f638d1c23dc9555191ea1eb654a1085faf59a931f31fb2f59701fe
+updated: 2017-03-03T12:08:46.862339635+08:00
 imports:
 - name: github.com/andybalholm/cascadia
   version: 349dd0209470eabd9514242c688c403c0926d266
@@ -8,8 +8,7 @@ imports:
 - name: github.com/fatih/color
   version: 7824417a424b65227be8ac9b14d545a7f3e6c3f0
 - name: github.com/mattn/go-colorable
-  version: 5411d3eea5978e6cdc258b30de592b60df6aba96
-  repo: https://github.com/mattn/go-colorable
+  version: d228849504861217f796da67fae4f6e347643f15
 - name: github.com/mattn/go-isatty
   version: dda3de49cbfcec471bd7a70e6cc01fcc3ff90109
   repo: https://github.com/mattn/go-isatty
