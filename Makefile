@@ -1,13 +1,19 @@
+.PHONY: vendor
+
 TARGETS = darwin/amd64 darwin/386 linux/amd64 linux/386 windows/amd64 windows/386
 
 usage:
 	@echo
 	@echo "Command      : Description"
 	@echo "------------ : ---------------"
+	@echo "make vendor  : Install the vendors"
 	@echo "make clean   : Clean up the build files and reset assets"
 	@echo "make release : Generate binaries for all supported OSes"
 	@echo "make windows : Generate assets for windows environment like cmder, fonts"
 	@echo
+
+vendor:
+	@glide install
 
 clean:
 	@rm -rf ./bin/*
