@@ -1,8 +1,11 @@
 package cron
 
 import (
+    "os"
+    "os/signal"
     "strconv"
     "strings"
+    "syscall"
     "math/rand"
 
     "github.com/codegangsta/cli"
@@ -66,7 +69,10 @@ func cronRun(cli *cli.Context) error {
     }
 
     cronTab.Start()
-    select{}
+
+    signalChannel := make(chan os.Signal)
+    signal.Notify(signalChannel, os.Kill, os.Interrupt, syscall.SIGTERM)
+    <-signalChannel
 
     return nil
 }
