@@ -38,6 +38,10 @@ Show the rendered email content base on dummy data
 
 ## Develop
 
+Install the tools
+
+    make develop
+
 Install the vendor
 
     make vendor
@@ -45,6 +49,14 @@ Install the vendor
 Clean the builds and assets
 
     make clean
+
+Run the watcher
+
+    make watch
+
+Try to execute the application
+
+    ./go-contix --help
 
 ## Release
 
