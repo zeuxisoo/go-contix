@@ -33,15 +33,11 @@ func cronList(cli *cli.Context) error {
         return err
     }
 
-    log.Info("Rendering .....\n")
-
-    table := tablewriter.NewWriter(os.Stdout)
-    table.SetHeader([]string{ "ID", "Schedule", "Remark", "Enable", "Proxy" })
-
+    var rows [][]string
     for _, performance := range cronTask.Performances {
         // Show disabled task only when --disable is assigned
         if cli.Bool("disable") == true && performance.Enable == false {
-            table.Append([]string{
+            rows = append(rows, []string{
                 strconv.Itoa(performance.Id),
                 performance.Schedule,
                 performance.Remark,
@@ -57,7 +53,7 @@ func cronList(cli *cli.Context) error {
 
         // Show all task by default when --disable is not assigned
         if cli.Bool("disable") == false {
-            table.Append([]string{
+            rows = append(rows, []string{
                 strconv.Itoa(performance.Id),
                 performance.Schedule,
                 performance.Remark,
@@ -72,6 +68,20 @@ func cronList(cli *cli.Context) error {
         }
     }
 
+    log.Info("Rendering .....\n")
+
+    table := tablewriter.NewWriter(os.Stdout)
+    table.SetHeader([]string{ "ID", "Schedule", "Remark", "Enable", "Proxy" })
+
+    if len(rows) > 0 {
+        table.AppendBulk(rows)
+        table.SetAlignment(tablewriter.ALIGN_LEFT)
+    }else{
+        table.Append([]string{ "--", "--", "No any related cron tasks", "--", "--" })
+        table.SetAlignment(tablewriter.ALIGN_CENTER)
+    }
+
+    table.SetRowLine(true)
     table.Render()
 
     return nil
