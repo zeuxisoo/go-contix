@@ -18,6 +18,10 @@ var CmdCronList = cli.Command{
     Description: "The tools provide you to list scheduled task",
     Action: cronList,
     Flags: []cli.Flag{
+        cli.BoolFlag{
+            Name:  "disable",
+            Usage: "Is it show diabled task only?",
+        },
     },
 }
 
@@ -35,18 +39,37 @@ func cronList(cli *cli.Context) error {
     table.SetHeader([]string{ "ID", "Schedule", "Remark", "Enable", "Proxy" })
 
     for _, performance := range cronTask.Performances {
-        table.Append([]string{
-            strconv.Itoa(performance.Id),
-            performance.Schedule,
-            performance.Remark,
-            toYesOrNo(performance.Enable),
-            fmt.Sprintf(
-                "%s,%s,%s",
-                toYesOrNo(performance.Proxy.Enable),
-                performance.Proxy.Method,
-                toNAString(performance.Proxy.Server),
-            ),
-        })
+        // Show disabled task only when --disable is assigned
+        if cli.Bool("disable") == true && performance.Enable == false {
+            table.Append([]string{
+                strconv.Itoa(performance.Id),
+                performance.Schedule,
+                performance.Remark,
+                toYesOrNo(performance.Enable),
+                fmt.Sprintf(
+                    "%s,%s,%s",
+                    toYesOrNo(performance.Proxy.Enable),
+                    performance.Proxy.Method,
+                    toNAString(performance.Proxy.Server),
+                ),
+            })
+        }
+
+        // Show all task by default when --disable is not assigned
+        if cli.Bool("disable") == false {
+            table.Append([]string{
+                strconv.Itoa(performance.Id),
+                performance.Schedule,
+                performance.Remark,
+                toYesOrNo(performance.Enable),
+                fmt.Sprintf(
+                    "%s,%s,%s",
+                    toYesOrNo(performance.Proxy.Enable),
+                    performance.Proxy.Method,
+                    toNAString(performance.Proxy.Server),
+                ),
+            })
+        }
     }
 
     table.Render()
