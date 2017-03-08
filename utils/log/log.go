@@ -3,6 +3,7 @@ package log
 import (
     "github.com/Sirupsen/logrus"
     "github.com/mattn/go-colorable"
+    "github.com/rifflock/lfshook"
 )
 
 var (
@@ -19,6 +20,12 @@ func init() {
     log.Level = logrus.DebugLevel
 
     log.Out = colorable.NewColorableStdout()
+}
+
+func SetLogFilePath(logFilePath string) {
+    log.Hooks.Add(lfshook.NewHook(lfshook.PathMap{
+        logrus.InfoLevel: logFilePath,
+    }))
 }
 
 func Info(args ...interface{}) {

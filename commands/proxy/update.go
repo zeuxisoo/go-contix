@@ -21,11 +21,21 @@ var CmdProxyUpdate = cli.Command{
     Description: "The tools provide you to update exists proxy data",
     Action: proxyUpdate,
     Flags: []cli.Flag{
+        cli.StringFlag{
+            Name:  "log-file-path",
+            Usage: "Where do you want to save the log file?",
+            Value: "",
+        },
     },
 }
 
-func proxyUpdate(cli *cli.Context) error {
+func proxyUpdate(ctx *cli.Context) error {
     type proxyState models.ProxyState
+
+    logFilePath := ctx.String("log-file-path")
+    if logFilePath != "" {
+        log.SetLogFilePath(logFilePath)
+    }
 
     log.Infof("Loading fetched proxy file ...")
 

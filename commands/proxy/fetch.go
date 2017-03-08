@@ -36,11 +36,21 @@ var CmdProxyFetch = cli.Command{
             }, ",")),
             Value: FreeProxyList,
         },
+        cli.StringFlag{
+            Name:  "log-file-path",
+            Usage: "Where do you want to save the log file?",
+            Value: "",
+        },
     },
 }
 
 func proxyFetch(ctx *cli.Context) error {
     site := ctx.String("site")
+
+    logFilePath := ctx.String("log-file-path")
+    if logFilePath != "" {
+        log.SetLogFilePath(logFilePath)
+    }
 
     log.Infof("Proxy site: %s", site)
     log.Infof("Starting .....")

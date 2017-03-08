@@ -1,16 +1,17 @@
-hash: 700d170192f638d1c23dc9555191ea1eb654a1085faf59a931f31fb2f59701fe
-updated: 2017-03-03T12:08:46.862339635+08:00
+hash: e15cb6eb58073d936b0296d97a91cce539af1b70bbdcd1efda4051da384d3a0a
+updated: 2017-03-08T15:20:59.540716216+08:00
 imports:
 - name: github.com/andybalholm/cascadia
   version: 349dd0209470eabd9514242c688c403c0926d266
 - name: github.com/codegangsta/cli
   version: 0bdeddeeb0f650497d603c4ad7b20cfe685682f6
 - name: github.com/fatih/color
-  version: 7824417a424b65227be8ac9b14d545a7f3e6c3f0
+  version: 9131ab34cf20d2f6d83fdc67168a5430d1c7dc23
 - name: github.com/mattn/go-colorable
-  version: d228849504861217f796da67fae4f6e347643f15
+  version: acb9493f2794fd0f820de7a27a217dafbb1b65ea
+  vcs: git
 - name: github.com/mattn/go-isatty
-  version: dda3de49cbfcec471bd7a70e6cc01fcc3ff90109
+  version: 57fdcb988a5c543893cc61bce354a6e24ab70022
   repo: https://github.com/mattn/go-isatty
 - name: github.com/mattn/go-runewidth
   version: 14207d285c6c197daabb5c9793d63e7af9ab2d50
@@ -24,6 +25,8 @@ imports:
   version: bfd5150e4e41705ded2129ec33379de1cb90b513
 - name: github.com/PuerkitoBio/goquery
   version: e1271ee34c6a305e38566ecd27ae374944907ee9
+- name: github.com/rifflock/lfshook
+  version: 1ae91782cf87524466b000ea12d8291ea48269be
 - name: github.com/robfig/cron
   version: b024fc5ea0e34bc3f83d9941c8d60b0622bfaca4
 - name: github.com/Sirupsen/logrus
