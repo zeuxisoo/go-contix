@@ -19,7 +19,7 @@ var CmdMailRender = cli.Command{
     },
 }
 
-func mailRender(cli *cli.Context) error {
+func mailRender(ctx *cli.Context) error {
     log.Info("Reading notification mail content ...")
     log.Info("Rendering .....\n")
 

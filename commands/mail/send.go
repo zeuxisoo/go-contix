@@ -17,7 +17,7 @@ var CmdMailSend = cli.Command{
     },
 }
 
-func mailSend(cli *cli.Context) error {
+func mailSend(ctx *cli.Context) error {
     log.Info("Reading cron task file ...")
 
     cronTask, err := configs.LoadCronTask()

@@ -25,7 +25,7 @@ var CmdCronList = cli.Command{
     },
 }
 
-func cronList(cli *cli.Context) error {
+func cronList(ctx *cli.Context) error {
     log.Info("Reading cron task file ...")
 
     cronTask, err := configs.LoadCronTask()
@@ -36,7 +36,7 @@ func cronList(cli *cli.Context) error {
     var rows [][]string
     for _, performance := range cronTask.Performances {
         // Show disabled task only when --disable is assigned
-        if cli.Bool("disable") == true && performance.Enable == false {
+        if ctx.Bool("disable") == true && performance.Enable == false {
             rows = append(rows, []string{
                 strconv.Itoa(performance.Id),
                 performance.Schedule,
@@ -52,7 +52,7 @@ func cronList(cli *cli.Context) error {
         }
 
         // Show all task by default when --disable is not assigned
-        if cli.Bool("disable") == false {
+        if ctx.Bool("disable") == false {
             rows = append(rows, []string{
                 strconv.Itoa(performance.Id),
                 performance.Schedule,

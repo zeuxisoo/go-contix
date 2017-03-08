@@ -29,7 +29,7 @@ var CmdCronRun = cli.Command{
     },
 }
 
-func cronRun(cli *cli.Context) error {
+func cronRun(ctx *cli.Context) error {
     cronTask, err := configs.LoadCronTask()
     if err != nil {
         return err
