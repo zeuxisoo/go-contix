@@ -1,22 +1,22 @@
 performances:
-- id: 31590
-  schedule: "*/10 * * * * *"
-  remark: "This is a remark one"
-  enable: true
-  timeout: 3000
-  proxy:
+  - id: 31590
+    schedule: "*/10 * * * * *"
+    remark: "This is a remark one"
     enable: true
-    method: "pool"                  # support type: pool, custom
-    server: ""                      # like: http://127.0.0.1:8080, only for custom method
-- id: 30924
-  schedule: "*/15 * * * * *"
-  remark: "This is a remark two"
-  enable: false
-  timeout: 5000
-  proxy:
-    enable: true
-    method: "custom"                # support type: pool, custom
-    server: "http://127.0.0.1:8080" # like: http://127.0.0.1:8080, only for custom method
+    timeout: 3000
+    proxy:
+      enable: true
+      method: "pool"                  # support type: pool, custom
+      server: ""                      # like: http://127.0.0.1:8080, only for custom method
+  - id: 30924
+    schedule: "*/15 * * * * *"
+    remark: "This is a remark two"
+    enable: false
+    timeout: 5000
+    proxy:
+      enable: true
+      method: "custom"                # support type: pool, custom
+      server: "http://127.0.0.1:8080" # like: http://127.0.0.1:8080, only for custom method
 
 mail:
   sender: "no-reply@mailgun.example.com"
