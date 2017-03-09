@@ -12,7 +12,7 @@ import (
 
 var CmdMailRender = cli.Command{
     Name: "render",
-    Usage: "Test to render the notification content",
+    Usage: "Render the testing notification content",
     Description: "The tools provide you to show the rendered notification content by dummy data",
     Action: mailRender,
     Flags: []cli.Flag{

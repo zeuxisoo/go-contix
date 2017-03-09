@@ -8,8 +8,8 @@ import (
 
 var CmdCron = cli.Command{
     Name: "cron",
-    Usage: "A tools for run the scheduled task",
-    Description: "The tools provide you can to loop the default task",
+    Usage: "A tools for you control the task list",
+    Description: "The tools provide you can to lookup / start the task list",
     Subcommands: []cli.Command{
         cron.CmdCronRun,
         cron.CmdCronList,

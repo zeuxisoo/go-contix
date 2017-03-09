@@ -9,13 +9,13 @@ import (
 )
 
 const (
-    APP_VERSION = "0.1.0"
+    APP_VERSION = "0.1.1"
 )
 
 func main() {
     app := cli.NewApp()
     app.Name = "Contix"
-    app.Usage = "A application console for contix"
+    app.Usage = "A tools for checking the target performance is or not available for sales"
     app.Version = APP_VERSION
     app.Commands = []cli.Command{
         commands.CmdProxy,

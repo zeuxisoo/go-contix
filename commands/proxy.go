@@ -8,7 +8,7 @@ import (
 
 var CmdProxy = cli.Command{
     Name: "proxy",
-    Usage: "A tools for manage the proxy data",
+    Usage: "A tools for you manage the proxy data",
     Description: "The tools provide you to fetch or update proxy data etc",
     Subcommands: []cli.Command{
         proxy.CmdProxyFetch,
