@@ -3,6 +3,7 @@ package models
 type CronTask struct {
     Performances []CronTaskPerformance  `yaml:"performances"`
     Mail         CronTaskMail           `yaml:"mail"`
+    UserAgents   []string               `yaml:"user_agents"`
 }
 
 type CronTaskPerformance struct {

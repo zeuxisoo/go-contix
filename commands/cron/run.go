@@ -48,7 +48,7 @@ func cronRun(ctx *cli.Context) error {
             cronTab.AddFunc(task.Schedule, func() {
                 log.Infof(yellow("Remark: %s, Checking ...", task.Remark))
 
-                available, performances, err := checkPerformanceStateTask(i, task);
+                available, performances, err := checkPerformanceStateTask(i, cronTask, task);
                 if err != nil {
                     log.Infof(red("Remark: %s, Check: ✘, error: %v", task.Remark, err))
                 }
@@ -77,7 +77,7 @@ func cronRun(ctx *cli.Context) error {
     return nil
 }
 
-func checkPerformanceStateTask(id int, task models.CronTaskPerformance) (bool, []models.PerformanceList, error) {
+func checkPerformanceStateTask(id int, cronTask models.CronTask, task models.CronTaskPerformance) (bool, []models.PerformanceList, error) {
     lines, err := file.ReadByLines(configs.ProxyPoolFilePath)
     if err != nil {
         return false, []models.PerformanceList{}, err
@@ -96,7 +96,8 @@ func checkPerformanceStateTask(id int, task models.CronTaskPerformance) (bool, [
     performanceStateChecker := checker.NewPerformanceStateChecker().
         SetPerformanceId(strconv.Itoa(task.Id)).
         SetProxy(proxy).
-        SetTimeout(task.Timeout)
+        SetTimeout(task.Timeout).
+        SetUserAgents(cronTask.UserAgents)
 
     performanceList, err := performanceStateChecker.GetPerformanceList()
     if err != nil {
