@@ -1,6 +1,6 @@
 <template>
     <div id="app">
-      <router-view></router-view>
+        <router-view></router-view>
     </div>
 </template>
 
@@ -11,12 +11,28 @@ export default {
 </script>
 
 <style>
+html, body {
+    overflow: hidden;
+}
+
+a {
+    text-decoration: none;
+}
+
+.line {
+    height: 1px;
+    background-color: #e0e6ed;
+    margin: 10px -24px;
+}
+
+.text-right {
+    text-align: right;
+}
+
 #app {
-    font-family: 'Avenir', Helvetica, Arial, sans-serif;
+    font-family: "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    text-align: center;
     color: #2c3e50;
-    margin-top: 60px;
 }
 </style>
