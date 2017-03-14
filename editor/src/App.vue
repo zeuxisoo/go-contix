@@ -29,6 +29,14 @@ a {
     text-align: right;
 }
 
+.text-center {
+    text-align: center;
+}
+
+.full-width-button > button {
+    width: 100%;
+}
+
 #app {
     font-family: "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
     -webkit-font-smoothing: antialiased;

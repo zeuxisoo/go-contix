@@ -4,18 +4,31 @@
         <div class="line"></div>
 
         <div id="pick-file">
-            <input type="file" class="load-configuire-file" v-on:change="loadConfiguireFile" accept="application/x-yaml, .yaml, .yml">
-            <el-input v-bind:placeholder="browseInputBoxPlaceholder" readonly>
-                <el-button slot="append" v-on:click="browse">Browse</el-button>
-            </el-input>
+            <el-row :gutter="5">
+                <el-col :span="22">
+                    <input type="file" class="load-configuire-file" v-on:change="loadConfiguireFile" accept="application/x-yaml, .yaml, .yml">
+                    <el-input v-bind:placeholder="browseInputBoxPlaceholder" readonly>
+                        <el-button slot="append" v-on:click="browse">Browse</el-button>
+                    </el-input>
+                </el-col>
+                <el-col :span="2" class="text-center full-width-button">
+                    <el-button v-bind:disabled="isLoaded === false" v-on:click="saveConfigureFile">Save</el-button>
+                </el-col>
+            </el-row>
         </div>
         <div class="line"></div>
 
         <div class="editor" v-if="isLoaded === true">
             <el-tabs type="border-card" v-model="editorCurrentTab" @tab-click="clickEditorTab">
-                <el-tab-pane label="Performances" name="performances">Performances</el-tab-pane>
-                <el-tab-pane label="Mail" name="mail">Mail</el-tab-pane>
-                <el-tab-pane label="User Agents" name="user-agents">User Agents</el-tab-pane>
+                <el-tab-pane label="Performances" name="performances">
+                    <home-performances v-bind:configs="configs"></home-performances>
+                </el-tab-pane>
+                <el-tab-pane label="Mail" name="mail">
+                    Mail
+                </el-tab-pane>
+                <el-tab-pane label="User Agents" name="user-agents">
+                    User Agents
+                </el-tab-pane>
             </el-tabs>
         </div>
     </div>
@@ -30,9 +43,14 @@
 
 <script>
 import yaml from 'js-yaml'
+import HomePerformances from './home/Performances.vue'
 
 export default {
     name: 'home',
+
+    components: {
+        'home-performances': HomePerformances
+    },
 
     data () {
         return {
@@ -67,7 +85,6 @@ export default {
             this.configs = {}
             this.isLoaded = false
 
-            var self = this
             const reader = new FileReader()
 
             reader.onload = () => {
@@ -78,30 +95,53 @@ export default {
                 const cond3 = configs.hasOwnProperty("user_agents")
 
                 if (cond1 === true && cond2 === true && cond3 === true) {
-                    self.configs  = configs
-                    self.isLoaded = true
+                    this.configs  = configs
+                    this.isLoaded = true
                 }else{
-                    self.configs  = configs
-                    self.file     = {}
-                    self.isLoaded = true
+                    this.configs  = configs
+                    this.file     = {}
+                    this.isLoaded = true
 
                     alert("Invalid file format")
                 }
 
                 // Reset input[type=file] to fix only load once problem
                 document.querySelector(".load-configuire-file").value = ""
-            };
+            }
 
             if (event.target.files.length > 0) {
                 this.file = event.target.files[0]
 
+                reader.onload.bind(this)
                 reader.readAsText(this.file)
             }
         },
 
+        saveConfigureFile() {
+            const dump = yaml.safeDump(this.configs)
+            const url  = "data:application/x-yaml;base64," + this.base64EncodeUnicode(dump)
+            const aTag = document.createElement("a")
+
+            aTag.style    = "display: none"
+            aTag.href     = url
+            aTag.download = "cron-task.yaml"
+
+            document.body.appendChild(aTag)
+
+            aTag.click()
+
+            document.body.removeChild(aTag)
+        },
+
         clickEditorTab(tab, event) {
 
-        }
+        },
+
+        base64EncodeUnicode(text) {
+            return btoa(encodeURIComponent(text).replace(/%([0-9A-F]{2})/g, (match, p1) => {
+                return String.fromCharCode('0x' + p1);
+            }))
+        },
     }
 }
 </script>
