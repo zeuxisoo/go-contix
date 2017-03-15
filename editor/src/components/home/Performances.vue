@@ -43,7 +43,7 @@
                     <el-input type="text" v-model.trim="performance.proxy.server"></el-input>
                 </el-col>
                 <el-col :span="2" class="text-center">
-                    <el-button type="primary" icon="delete" v-on:click="deletePerformance(performance.id)"></el-button>
+                    <el-button type="danger" icon="delete" v-on:click="deletePerformance(performance.id)"></el-button>
                 </el-col>
             </el-row>
             <div class="line"></div>
