@@ -27,7 +27,7 @@
                     <home-mail v-bind:configs="configs"></home-mail>
                 </el-tab-pane>
                 <el-tab-pane label="User Agents" name="user-agents">
-                    User Agents
+                    <home-user-agents v-bind:configs="configs"></home-user-agents>
                 </el-tab-pane>
             </el-tabs>
         </div>
@@ -45,6 +45,7 @@
 import yaml from 'js-yaml'
 import HomePerformances from './home/Performances.vue'
 import HomeMail from './home/Mail.vue'
+import HomeUserAgents from './home/UserAgents.vue'
 
 export default {
     name: 'home',
@@ -52,6 +53,7 @@ export default {
     components: {
         'home-performances': HomePerformances,
         'home-mail': HomeMail,
+        'home-user-agents': HomeUserAgents,
     },
 
     data () {
