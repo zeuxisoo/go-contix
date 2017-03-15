@@ -5,7 +5,7 @@
                 <span class="tab-subject">Tasks</span>
             </el-col>
             <el-col :span="21" class="text-right">
-                <el-button type="success" size="small" class="button-create" v-on:click="">
+                <el-button type="success" size="small" class="button-create" v-on:click="showCreatePerformanceForm = true">
                     <i class="el-icon-plus el-icon--left"></i>
                     Create
                 </el-button>
@@ -58,6 +58,43 @@
             </el-row>
             <div class="line"></div>
         </div>
+
+        <!--Create performance dialog-->
+        <el-dialog title="Performance" v-model="showCreatePerformanceForm">
+            <el-form label-width="120px">
+                <el-form-item label="ID">
+                    <el-input type="number" v-model.number="createPerformanceForm.performance.id"></el-input>
+                </el-form-item>
+                <el-form-item label="Schedule">
+                    <el-input type="type" v-model.trim="createPerformanceForm.performance.schedule"></el-input>
+                </el-form-item>
+                <el-form-item label="Remark">
+                    <el-input type="type" v-model.trim="createPerformanceForm.performance.remark"></el-input>
+                </el-form-item>
+                <el-form-item label="Enable">
+                    <el-checkbox v-model="createPerformanceForm.performance.enable"></el-checkbox>
+                </el-form-item>
+                <el-form-item label="Timeout">
+                    <el-input type="number" v-model.number="createPerformanceForm.performance.timeout"></el-input>
+                </el-form-item>
+                <el-form-item label="Proxy enable">
+                    <el-checkbox v-model="createPerformanceForm.performance.proxy.enable"></el-checkbox>
+                </el-form-item>
+                <el-form-item label="Proxy method">
+                    <el-select v-model.trim="createPerformanceForm.performance.proxy.method">
+                        <el-option label="Pool" value="pool"></el-option>
+                        <el-option label="Custom" value="custom"></el-option>
+                    </el-select>
+                </el-form-item>
+                <el-form-item label="Proxy server">
+                    <el-input type="type" v-model.trim="createPerformanceForm.performance.proxy.server"></el-input>
+                </el-form-item>
+            </el-form>
+            <div slot="footer" class="dialog-footer">
+                <el-button v-on:click="showCreatePerformanceForm = false">Cancel</el-button>
+                <el-button type="primary" v-on:click="showCreatePerformanceForm = false">OK</el-button>
+            </div>
+        </el-dialog>
     </div>
 </template>
 
@@ -76,6 +113,26 @@ export default {
         configs: {
             type: Object,
             required: true
+        }
+    },
+
+    data() {
+        return {
+            showCreatePerformanceForm: false,
+            createPerformanceForm: {
+                performance: {
+                    id: 0,
+                    schedule: "",
+                    remark: "",
+                    enable: false,
+                    timeout: 3000,
+                    proxy: {
+                        enable: false,
+                        method: "pool",
+                        server: ""
+                    }
+                }
+            }
         }
     },
 
