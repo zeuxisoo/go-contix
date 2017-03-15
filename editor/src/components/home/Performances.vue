@@ -69,10 +69,10 @@
                     <el-input type="number" v-model.number="createPerformanceForm.performance.id"></el-input>
                 </el-form-item>
                 <el-form-item label="Schedule">
-                    <el-input type="type" v-model.trim="createPerformanceForm.performance.schedule"></el-input>
+                    <el-input type="text" v-model.trim="createPerformanceForm.performance.schedule"></el-input>
                 </el-form-item>
                 <el-form-item label="Remark">
-                    <el-input type="type" v-model.trim="createPerformanceForm.performance.remark"></el-input>
+                    <el-input type="text" v-model.trim="createPerformanceForm.performance.remark"></el-input>
                 </el-form-item>
                 <el-form-item label="Enable">
                     <el-checkbox v-model="createPerformanceForm.performance.enable"></el-checkbox>
@@ -90,7 +90,7 @@
                     </el-select>
                 </el-form-item>
                 <el-form-item label="Proxy server">
-                    <el-input type="type" v-model.trim="createPerformanceForm.performance.proxy.server"></el-input>
+                    <el-input type="text" v-model.trim="createPerformanceForm.performance.proxy.server"></el-input>
                 </el-form-item>
             </el-form>
             <div slot="footer" class="dialog-footer">
