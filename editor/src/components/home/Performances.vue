@@ -47,7 +47,10 @@
                     <el-checkbox v-model="performance.proxy.enable"></el-checkbox>
                 </el-col>
                 <el-col :span="3">
-                    <el-input type="text" v-model.trim="performance.proxy.method"></el-input>
+                    <el-select v-model.trim="performance.proxy.method">
+                        <el-option label="Pool" value="pool"></el-option>
+                        <el-option label="Custom" value="custom"></el-option>
+                    </el-select>
                 </el-col>
                 <el-col :span="3">
                     <el-input type="text" v-model.trim="performance.proxy.server"></el-input>
