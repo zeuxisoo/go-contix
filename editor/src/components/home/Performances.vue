@@ -1,5 +1,8 @@
 <template>
     <div id="home-performances">
+        <h4>Tasks</h4>
+        <div class="line"></div>
+
         <el-row :gutter="20">
             <el-col :span="2">ID</el-col>
             <el-col :span="3">Schedule</el-col>
@@ -11,6 +14,7 @@
             <el-col :span="4">Proxy Server</el-col>
         </el-row>
         <div class="line"></div>
+
         <div class="performance" v-for="performance in configs.performances">
             <el-row :gutter="20">
                 <el-col :span="2">
