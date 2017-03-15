@@ -148,7 +148,25 @@ export default {
             const performance = JSON.parse(JSON.stringify(this.createPerformanceForm.performance))
 
             this.configs.performances.push(performance)
+            this.resetCreatePerformanceForm()
             this.showCreatePerformanceForm = false
+        },
+
+        resetCreatePerformanceForm() {
+            this.createPerformanceForm = {
+                performance: {
+                    id: 0,
+                    schedule: "",
+                    remark: "",
+                    enable: false,
+                    timeout: 3000,
+                    proxy: {
+                        enable: false,
+                        method: "pool",
+                        server: ""
+                    }
+                }
+            }
         }
     }
 }
