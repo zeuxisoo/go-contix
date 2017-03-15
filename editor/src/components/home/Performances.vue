@@ -92,7 +92,7 @@
             </el-form>
             <div slot="footer" class="dialog-footer">
                 <el-button v-on:click="showCreatePerformanceForm = false">Cancel</el-button>
-                <el-button type="primary" v-on:click="showCreatePerformanceForm = false">OK</el-button>
+                <el-button type="primary" v-on:click="createPerformance">OK</el-button>
             </div>
         </el-dialog>
     </div>
@@ -141,6 +141,14 @@ export default {
             this.configs.performances = this.configs.performances.filter(performance => {
                 return performance.id != id
             })
+        },
+
+        createPerformance() {
+            // Clone object by simple way without _.clone(obj, true)
+            const performance = JSON.parse(JSON.stringify(this.createPerformanceForm.performance))
+
+            this.configs.performances.push(performance)
+            this.showCreatePerformanceForm = false
         }
     }
 }
