@@ -12,7 +12,7 @@
                     </el-input>
                 </el-col>
                 <el-col :span="2" class="text-center full-width-button">
-                    <el-button v-bind:disabled="isLoaded === false" v-on:click="saveConfigureFile">Save</el-button>
+                    <el-button type="info" v-bind:disabled="isLoaded === false" v-on:click="saveConfigureFile">Save</el-button>
                 </el-col>
             </el-row>
         </div>
