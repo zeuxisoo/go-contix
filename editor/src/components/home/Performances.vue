@@ -6,12 +6,13 @@
         <el-row :gutter="20">
             <el-col :span="2">ID</el-col>
             <el-col :span="3">Schedule</el-col>
-            <el-col :span="6">Remark</el-col>
+            <el-col :span="5">Remark</el-col>
             <el-col :span="2" class="text-center">Enable</el-col>
             <el-col :span="2">Timeout</el-col>
             <el-col :span="2" class="text-center">Proxy</el-col>
             <el-col :span="3">Proxy Method</el-col>
-            <el-col :span="4">Proxy Server</el-col>
+            <el-col :span="3">Proxy Server</el-col>
+            <el-col :span="2" class="text-center">Action</el-col>
         </el-row>
         <div class="line"></div>
 
@@ -23,7 +24,7 @@
                 <el-col :span="3">
                     <el-input type="text" v-model.trim="performance.schedule"></el-input>
                 </el-col>
-                <el-col :span="6">
+                <el-col :span="5">
                     <el-input type="text" v-model.trim="performance.remark"></el-input>
                 </el-col>
                 <el-col :span="2" class="checkbox-center">
@@ -38,8 +39,11 @@
                 <el-col :span="3">
                     <el-input type="text" v-model.trim="performance.proxy.method"></el-input>
                 </el-col>
-                <el-col :span="4">
+                <el-col :span="3">
                     <el-input type="text" v-model.trim="performance.proxy.server"></el-input>
+                </el-col>
+                <el-col :span="2" class="text-center">
+                    <el-button type="primary" icon="delete" v-on:click="deletePerformance(performance.id)"></el-button>
                 </el-col>
             </el-row>
             <div class="line"></div>
@@ -62,6 +66,14 @@ export default {
         configs: {
             type: Object,
             required: true
+        }
+    },
+
+    methods: {
+        deletePerformance(id) {
+            this.configs.performances = this.configs.performances.filter(performance => {
+                return performance.id != id
+            })
         }
     }
 }
