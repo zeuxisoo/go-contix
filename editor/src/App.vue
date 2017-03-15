@@ -37,6 +37,16 @@ a {
     width: 100%;
 }
 
+.tab-heading {
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.tab-heading .tab-subject {
+    font-weight: bold;
+    font-size: 18px;
+}
+
 #app {
     font-family: "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
     -webkit-font-smoothing: antialiased;

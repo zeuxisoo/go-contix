@@ -1,6 +1,12 @@
 <template>
     <div id="home-mail">
-        <h4>Base</h4>
+        <el-row :gutter="20" class="tab-heading">
+            <el-col :span="24">
+                <span class="tab-subject">Mail</span>
+            </el-col>
+        </el-row>
+        <div class="line"></div>
+
         <el-form ref="form" :model="configs.mail" label-width="80px">
             <el-form-item label="Sender">
                 <el-input v-model.trim="configs.mail.sender"></el-input>
@@ -14,7 +20,13 @@
         </el-form>
         <div class="line"></div>
 
-        <h4>Mailgun</h4>
+        <el-row :gutter="20" class="tab-heading">
+            <el-col :span="24">
+                <span class="tab-subject">Mailgun</span>
+            </el-col>
+        </el-row>
+        <div class="line"></div>
+
         <el-form ref="form" :model="configs.mail" label-width="80px">
             <el-form-item label="Domain">
                 <el-input v-model.trim="configs.mail.mailgun.domain"></el-input>

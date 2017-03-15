@@ -1,7 +1,18 @@
 <template>
     <div id="home-user-agents">
-        <h4>Agents</h4>
+        <el-row :gutter="20" class="tab-heading">
+            <el-col :span="3">
+                <span class="tab-subject">Agents</span>
+            </el-col>
+            <el-col :span="21" class="text-right">
+                <el-button type="success" size="small" class="button-create" v-on:click="">
+                    <i class="el-icon-plus el-icon--left"></i>
+                    Create
+                </el-button>
+            </el-col>
+        </el-row>
         <div class="line"></div>
+
         <el-row :gutter="20">
             <el-col :span="3">Name</el-col>
             <el-col :span="19">Agent</el-col>
