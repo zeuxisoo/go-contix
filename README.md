@@ -58,6 +58,11 @@ Try to execute the application
 
     ./go-contix --help
 
+Develop editor
+
+    cd editor
+    make watch
+
 ## Release
 
 Build
