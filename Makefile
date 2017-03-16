@@ -10,7 +10,7 @@ usage:
 	@echo "make vendor  : Install the vendors"
 	@echo "make watch   : Watch the changes and rebuild the go-contix application"
 	@echo "make clean   : Clean up the build files and reset assets"
-	@echo "make bindata : Generate editor bindata"
+	@echo "make editor  : Generate editor bindata"
 	@echo "make release : Generate binaries for all supported OSes"
 	@echo "make windows : Generate assets for windows environment like cmder, fonts"
 	@echo
@@ -25,7 +25,7 @@ vendor:
 watch:
 	@$(GOPATH)/bin/bra run
 
-bindata:
+editor:
 	@cd editor && make bindata
 
 clean:
@@ -35,12 +35,13 @@ clean:
 clean-windows:
 	@rm -rf ./bin/windows
 
-release: clean bindata
+release: clean editor
 	@echo "Downloading gox"
 	@go get github.com/mitchellh/gox
 
 	@echo "Building binaries..."
 	@$(GOPATH)/bin/gox \
+		-ldflags "-s -w" \
 		-osarch "$(TARGETS)" \
 		-output "./bin/contix_{{.OS}}_{{.Arch}}"
 
