@@ -30,3 +30,6 @@ import:
   - color
 - package: github.com/elazarl/go-bindata-assetfs
 - package: github.com/Code-Hex/echo-static
+- package: github.com/skratchdot/open-golang
+  subpackages:
+  - open

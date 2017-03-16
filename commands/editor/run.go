@@ -5,6 +5,7 @@ import (
 
     "github.com/codegangsta/cli"
     "github.com/labstack/echo"
+    "github.com/skratchdot/open-golang/open"
 
     "github.com/zeuxisoo/go-contix/editor"
 
@@ -33,6 +34,8 @@ var CmdEditorRun = cli.Command{
 
 func editorRun(ctx *cli.Context) error {
     serverAddress := fmt.Sprintf("%s:%d", ctx.String("address"), ctx.Int("port"))
+
+    open.Run(fmt.Sprintf("http://%s/", serverAddress))
 
     e := echo.New()
     e.Use(static.ServeRoot("/", &assetfs.AssetFS{
