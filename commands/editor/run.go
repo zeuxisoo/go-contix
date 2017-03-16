@@ -1,6 +1,8 @@
 package editor
 
 import (
+    "fmt"
+
     "github.com/codegangsta/cli"
     "github.com/labstack/echo"
 
@@ -16,10 +18,22 @@ var CmdEditorRun = cli.Command{
     Description: "The tools provide you to edit / create / update the configure file",
     Action: editorRun,
     Flags: []cli.Flag{
+        cli.StringFlag{
+            Name:  "address, a",
+            Usage: "Custom address for server",
+            Value: "127.0.0.1",
+        },
+        cli.IntFlag{
+            Name : "port, p",
+            Usage: "Custom port for server",
+            Value: 8312,
+        },
     },
 }
 
 func editorRun(ctx *cli.Context) error {
+    serverAddress := fmt.Sprintf("%s:%d", ctx.String("address"), ctx.Int("port"))
+
     e := echo.New()
     e.Use(static.ServeRoot("/", &assetfs.AssetFS{
         Asset: editor.Asset,
@@ -27,7 +41,7 @@ func editorRun(ctx *cli.Context) error {
         AssetInfo: editor.AssetInfo,
         Prefix: "",
     }))
-    e.Logger.Fatal(e.Start(":8312"))
+    e.Logger.Fatal(e.Start(serverAddress))
 
     return nil
 }
