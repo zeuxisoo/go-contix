@@ -2,6 +2,7 @@ package editor
 
 import (
     "fmt"
+    "time"
 
     "github.com/codegangsta/cli"
     "github.com/labstack/echo"
@@ -40,7 +41,11 @@ func editorRun(ctx *cli.Context) error {
     serverAddress := fmt.Sprintf("%s:%d", ctx.String("address"), ctx.Int("port"))
 
     if ctx.Bool("browser") == true {
-        open.Run(fmt.Sprintf("http://%s/", serverAddress))
+        time.AfterFunc(2 * time.Second, func() {
+            fmt.Println("⇛ openning editor in default browser ...")
+
+            open.Run(fmt.Sprintf("http://%s/", serverAddress))
+        })
     }
 
     e := echo.New()
