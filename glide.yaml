@@ -18,7 +18,15 @@ import:
 - package: gopkg.in/mailgun/mailgun-go.v1
   version: ^1.1.0
 - package: github.com/mattn/go-colorable
+  version: a392f450ea64cee2b268dfaacdc2502b50a22b18
   vcs: git
-  version: acb9493f2794fd0f820de7a27a217dafbb1b65ea
 - package: github.com/rifflock/lfshook
   version: ^1.5.0
+- package: github.com/labstack/echo
+  version: ^3.1.0-rc.1
+- package: github.com/labstack/gommon
+  version: ^0.2.0
+  subpackages:
+  - color
+- package: github.com/elazarl/go-bindata-assetfs
+- package: github.com/Code-Hex/echo-static

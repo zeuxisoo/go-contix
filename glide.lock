@@ -1,14 +1,25 @@
-hash: e15cb6eb58073d936b0296d97a91cce539af1b70bbdcd1efda4051da384d3a0a
-updated: 2017-03-08T15:20:59.540716216+08:00
+hash: b920259c05e0397f01d3f29d8a8792952269a48f673390aa11caf8b75a12c15e
+updated: 2017-03-16T12:41:21.192256246+08:00
 imports:
 - name: github.com/andybalholm/cascadia
   version: 349dd0209470eabd9514242c688c403c0926d266
+- name: github.com/Code-Hex/echo-static
+  version: aa7c0382cfa1d59ab72807208c15649625f9fbc9
 - name: github.com/codegangsta/cli
   version: 0bdeddeeb0f650497d603c4ad7b20cfe685682f6
+- name: github.com/elazarl/go-bindata-assetfs
+  version: 30f82fa23fd844bd5bb1e5f216db87fd77b5eb43
 - name: github.com/fatih/color
   version: 9131ab34cf20d2f6d83fdc67168a5430d1c7dc23
+- name: github.com/labstack/echo
+  version: 948d607539e92f3974d8f24951c8975d7342e24a
+- name: github.com/labstack/gommon
+  version: 9cedb429ffbe71a32a3ae7c65fd109cb7ae07804
+  subpackages:
+  - color
+  - log
 - name: github.com/mattn/go-colorable
-  version: acb9493f2794fd0f820de7a27a217dafbb1b65ea
+  version: a392f450ea64cee2b268dfaacdc2502b50a22b18
   vcs: git
 - name: github.com/mattn/go-isatty
   version: 57fdcb988a5c543893cc61bce354a6e24ab70022
@@ -30,10 +41,21 @@ imports:
 - name: github.com/robfig/cron
   version: b024fc5ea0e34bc3f83d9941c8d60b0622bfaca4
 - name: github.com/Sirupsen/logrus
-  version: 0208149b40d863d2c1a2f8fe5753096a9cf2cc8b
+  version: ba1b36c82c5e05c4f912a88eab0dcd91a171688f
+- name: github.com/valyala/bytebufferpool
+  version: e746df99fe4a3986f4d4f79e13c1e0117ce9c2f7
+- name: github.com/valyala/fasttemplate
+  version: dcecefd839c4193db0d35b88ec65b4c12d360ab0
+- name: golang.org/x/crypto
+  version: 728b753d0135da6801d45a38e6f43ff55779c5c2
+  subpackages:
+  - acme
+  - acme/autocert
 - name: golang.org/x/net
   version: 906cda9512f77671ab44f8c8563b13a8e707b230
   subpackages:
+  - context
+  - context/ctxhttp
   - html
   - html/atom
   - publicsuffix

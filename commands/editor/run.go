@@ -1,9 +1,13 @@
 package editor
 
 import (
-    "fmt"
-
     "github.com/codegangsta/cli"
+    "github.com/labstack/echo"
+
+    "github.com/zeuxisoo/go-contix/editor"
+
+    static "github.com/Code-Hex/echo-static"
+    assetfs "github.com/elazarl/go-bindata-assetfs"
 )
 
 var CmdEditorRun = cli.Command{
@@ -16,6 +20,14 @@ var CmdEditorRun = cli.Command{
 }
 
 func editorRun(ctx *cli.Context) error {
-    fmt.Println("Editor run")
+    e := echo.New()
+    e.Use(static.ServeRoot("/", &assetfs.AssetFS{
+        Asset: editor.Asset,
+        AssetDir: editor.AssetDir,
+        AssetInfo: editor.AssetInfo,
+        Prefix: "",
+    }))
+    e.Logger.Fatal(e.Start(":8312"))
+
     return nil
 }
