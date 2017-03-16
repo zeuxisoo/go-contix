@@ -29,13 +29,19 @@ var CmdEditorRun = cli.Command{
             Usage: "Custom port for server",
             Value: 8312,
         },
+        cli.BoolTFlag{
+            Name: "browser, b",
+            Usage: "Auto open editor browser (default: true)",
+        },
     },
 }
 
 func editorRun(ctx *cli.Context) error {
     serverAddress := fmt.Sprintf("%s:%d", ctx.String("address"), ctx.Int("port"))
 
-    open.Run(fmt.Sprintf("http://%s/", serverAddress))
+    if ctx.Bool("browser") == true {
+        open.Run(fmt.Sprintf("http://%s/", serverAddress))
+    }
 
     e := echo.New()
     e.Use(static.ServeRoot("/", &assetfs.AssetFS{
