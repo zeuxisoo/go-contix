@@ -4,6 +4,7 @@ type CronTask struct {
     Performances []CronTaskPerformance  `yaml:"performances"`
     Mail         CronTaskMail           `yaml:"mail"`
     UserAgents   []CronTaskUserAgent    `yaml:"user_agents"`
+    Telegram     CronTaskTelegram       `yaml:"telegram"`
 }
 
 type CronTaskPerformance struct {
@@ -34,6 +35,11 @@ type CronTaskMailMailgun struct {
 }
 
 type CronTaskUserAgent struct {
-    Name    string  `yaml:name`
-    Agent   string  `yaml:agent`
+    Name    string  `yaml:"name"`
+    Agent   string  `yaml:"agent"`
+}
+
+type CronTaskTelegram struct {
+    Token   string  `yaml:"token"`
+    ChatIds []int64 `yaml:"chat_ids"`
 }

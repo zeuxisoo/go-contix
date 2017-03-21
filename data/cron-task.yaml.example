@@ -39,3 +39,7 @@ user_agents:
     agent: "Mozilla/5.0 (Windows; U; Windows NT 5.1; pt-BR) AppleWebKit/534.12 (KHTML, like Gecko) NavscapeNavigator/Pre-0.1 Safari/534.12"
   - name: "Custom agent 6"
     agent: "Mozilla/5.0 (Windows; U; WinNT4.0; de-AT; rv:1.7.11) Gecko/20050728"
+
+telegram:
+  token: ""
+  chat_ids: []
