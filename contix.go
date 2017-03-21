@@ -22,6 +22,7 @@ func main() {
         commands.CmdCron,
         commands.CmdMail,
         commands.CmdEditor,
+        commands.CmdTelegram,
     }
     app.Flags = append(app.Flags, []cli.Flag{}...)
     app.Run(os.Args)
