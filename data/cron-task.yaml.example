@@ -43,4 +43,6 @@ user_agents:
 telegram:
   enable: false
   token: ""
-  chat_ids: []
+  chat_ids:
+    - name: anyone
+      code: 12345678
