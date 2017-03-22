@@ -29,6 +29,9 @@
                 <el-tab-pane label="User Agents" name="user-agents">
                     <home-user-agents v-bind:configs="configs"></home-user-agents>
                 </el-tab-pane>
+                <el-tab-pane label="Telegram" name="telegram">
+                    <home-telegram v-bind:configs="configs"></home-telegram>
+                </el-tab-pane>
             </el-tabs>
         </div>
     </div>
@@ -46,6 +49,7 @@ import yaml from 'js-yaml'
 import HomePerformances from './home/Performances.vue'
 import HomeMail from './home/Mail.vue'
 import HomeUserAgents from './home/UserAgents.vue'
+import HomeTelegram from './home/Telegram.vue'
 
 export default {
     name: 'home',
@@ -54,6 +58,7 @@ export default {
         'home-performances': HomePerformances,
         'home-mail': HomeMail,
         'home-user-agents': HomeUserAgents,
+        'home-telegram': HomeTelegram,
     },
 
     data () {
@@ -93,12 +98,13 @@ export default {
 
             reader.onload = () => {
                 const configs = yaml.safeLoad(reader.result)
-
+                console.log(configs)
                 const cond1 = configs.hasOwnProperty("performances")
                 const cond2 = configs.hasOwnProperty("mail")
                 const cond3 = configs.hasOwnProperty("user_agents")
+                const cond4 = configs.hasOwnProperty("telegram")
 
-                if (cond1 === true && cond2 === true && cond3 === true) {
+                if (cond1 === true && cond2 === true && cond3 === true && cond4 === true) {
                     this.configs  = configs
                     this.isLoaded = true
                 }else{
