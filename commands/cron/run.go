@@ -18,6 +18,7 @@ import (
     "github.com/zeuxisoo/go-contix/utils/log"
     "github.com/zeuxisoo/go-contix/utils/file"
     "github.com/zeuxisoo/go-contix/utils/mail"
+    "github.com/zeuxisoo/go-contix/utils/telegram"
 )
 
 var CmdCronRun = cli.Command{
@@ -60,6 +61,14 @@ func cronRun(ctx *cli.Context) error {
                         log.Infof(red("Remark: %s, Mail: ✘, error: %v", task.Remark, err))
                     }else{
                         log.Infof(green("Remark: %s, Mail: ✔", task.Remark))
+                    }
+
+                    if cronTask.Telegram.Enable == true {
+                        if err := sendTelegramNotification(cronTask, task, performances); err != nil {
+                            log.Infof(red("Remark: %s, Telegram: ✘, error: %v", task.Remark, err))
+                        }else{
+                            log.Infof(green("Remark: %s, Telegram: ✔", task.Remark))
+                        }
                     }
                 }else{
                     log.Infof(cyan("Remark: %s, Status: ✘", task.Remark))
@@ -115,7 +124,7 @@ func checkPerformanceStateTask(id int, cronTask models.CronTask, task models.Cro
     return isAvailable, performanceList, nil
 }
 
-func sendMailNotification(cronTask models.CronTask, task models.CronTaskPerformance, performanceList []models.PerformanceList) error {
+func createNotificationContent(task models.CronTaskPerformance, performanceList []models.PerformanceList) (string, error) {
     var templatePerformances []models.MailNotificationDataPerformance
     for _, performance := range performanceList {
         templatePerformances = append(
@@ -132,7 +141,11 @@ func sendMailNotification(cronTask models.CronTask, task models.CronTaskPerforma
         Performances: templatePerformances,
     }
 
-    mailNotificationContent, err := mail.RenderMailNotification(templateData)
+    return mail.RenderMailNotification(templateData)
+}
+
+func sendMailNotification(cronTask models.CronTask, task models.CronTaskPerformance, performanceList []models.PerformanceList) error {
+    notificationContent, err := createNotificationContent(task, performanceList)
     if err != nil {
         return err
     }
@@ -141,10 +154,32 @@ func sendMailNotification(cronTask models.CronTask, task models.CronTaskPerforma
         SetSender(cronTask.Mail.Sender).
         SetRecipient(cronTask.Mail.Recipient).
         SetSubject(cronTask.Mail.Subject).
-        SetContent(mailNotificationContent).
+        SetContent(notificationContent).
         Send()
     if err != nil {
         return err
+    }
+
+    return nil
+}
+
+func sendTelegramNotification(cronTask models.CronTask, task models.CronTaskPerformance, performanceList []models.PerformanceList) error {
+    notificationContent, err := createNotificationContent(task, performanceList)
+    if err != nil {
+        return err
+    }
+
+    telegramBot, err := telegram.NewTelegram(cronTask.Telegram.Token)
+    if err != nil {
+        return err
+    }
+
+    for index := range cronTask.Telegram.ChatIds {
+        chatId  := cronTask.Telegram.ChatIds[index]
+        message := telegramBot.CreateMessage(chatId, notificationContent)
+        telegramBot.SendMessage(message)
+
+        log.Infof("chat id: %d sent", chatId)
     }
 
     return nil
