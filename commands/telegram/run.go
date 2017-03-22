@@ -47,7 +47,7 @@ func telegramRun(ctx *cli.Context) error {
     log.Infof("--------------------")
     log.Infof("Bot is stared, Please update the telegram.chat_ids in cron_task.yaml file")
     log.Infof("--------------------")
-    log.Infof("1. Open this link http://t.me/cronixbot")
+    log.Infof("1. Open this link http://t.me/contixbot")
     log.Infof("2. Chat with @contixbot bot")
     log.Infof("3. Send message: %s to get your chat id", color.GreenString("/chatid"))
     log.Infof("--------------------")
