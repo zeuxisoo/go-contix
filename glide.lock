@@ -1,5 +1,5 @@
-hash: bb0f3a4dbb2cfed60ac6e38ff292581b70d830e9af322bb880c16ef143e38f49
-updated: 2017-03-16T13:39:34.978894494+08:00
+hash: 06527210459ff15ac89a039bf87c293ef9025d3f64642639c252e857a61ee00d
+updated: 2017-03-22T12:23:08.95392172+08:00
 imports:
 - name: github.com/andybalholm/cascadia
   version: 349dd0209470eabd9514242c688c403c0926d266
@@ -46,6 +46,8 @@ imports:
   version: 75fb7ed4208cf72d323d7d02fd1a5964a7a9073c
   subpackages:
   - open
+- name: github.com/technoweenie/multipartstreamer
+  version: a90a01d73ae432e2611d178c18367fbaa13e0154
 - name: github.com/valyala/bytebufferpool
   version: e746df99fe4a3986f4d4f79e13c1e0117ce9c2f7
 - name: github.com/valyala/fasttemplate
@@ -70,6 +72,8 @@ imports:
   - unix
 - name: gopkg.in/mailgun/mailgun-go.v1
   version: a4002e2df2e8ca2da6a6fbb4a72871b504e49f50
+- name: gopkg.in/telegram-bot-api.v4
+  version: 0a57807db79efce7f6719fbb2c0e0f83fda79aec
 - name: gopkg.in/yaml.v2
   version: a3f3340b5840cee44f372bddb5880fcbc419b46a
 testImports: []

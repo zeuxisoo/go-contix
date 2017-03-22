@@ -5,9 +5,11 @@ import (
     "strings"
 
     "github.com/codegangsta/cli"
+    "github.com/fatih/color"
 
     "github.com/zeuxisoo/go-contix/configs"
     "github.com/zeuxisoo/go-contix/utils/log"
+    "github.com/zeuxisoo/go-contix/utils/telegram"
 )
 
 var CmdTelegramValidate = cli.Command{
@@ -31,6 +33,17 @@ func telegramValidate(ctx *cli.Context) error {
 
     log.Infof("Your bot token: %s", cronTask.Telegram.Token)
     log.Infof("Your chat ids : %s", convertChatIds(cronTask.Telegram.ChatIds))
+
+    telegramBot, err := telegram.NewTelegram(cronTask.Telegram.Token)
+
+    var validateStatus string
+    if telegramBot.ValidateToken() == true {
+        validateStatus = color.GreenString("passed")
+    }else{
+        validateStatus = color.RedString("failed")
+    }
+
+    log.Infof("Your token is : %s", validateStatus)
 
     return nil
 }
