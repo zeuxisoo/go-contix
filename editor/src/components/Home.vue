@@ -98,7 +98,7 @@ export default {
 
             reader.onload = () => {
                 const configs = yaml.safeLoad(reader.result)
-                console.log(configs)
+
                 const cond1 = configs.hasOwnProperty("performances")
                 const cond2 = configs.hasOwnProperty("mail")
                 const cond3 = configs.hasOwnProperty("user_agents")
