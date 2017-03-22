@@ -41,10 +41,10 @@ func cronList(ctx *cli.Context) error {
                 strconv.Itoa(performance.Id),
                 performance.Schedule,
                 performance.Remark,
-                toYesOrNo(performance.Enable),
+                configs.ConvertEnableStatus(performance.Enable),
                 fmt.Sprintf(
                     "%s,%s,%s",
-                    toYesOrNo(performance.Proxy.Enable),
+                    configs.ConvertEnableStatus(performance.Proxy.Enable),
                     performance.Proxy.Method,
                     toNAString(performance.Proxy.Server),
                 ),
@@ -57,10 +57,10 @@ func cronList(ctx *cli.Context) error {
                 strconv.Itoa(performance.Id),
                 performance.Schedule,
                 performance.Remark,
-                toYesOrNo(performance.Enable),
+                configs.ConvertEnableStatus(performance.Enable),
                 fmt.Sprintf(
                     "%s,%s,%s",
-                    toYesOrNo(performance.Proxy.Enable),
+                    configs.ConvertEnableStatus(performance.Proxy.Enable),
                     performance.Proxy.Method,
                     toNAString(performance.Proxy.Server),
                 ),
@@ -85,14 +85,6 @@ func cronList(ctx *cli.Context) error {
     table.Render()
 
     return nil
-}
-
-func toYesOrNo(enable bool) string {
-    if enable {
-        return "✔"
-    }else{
-        return "✘"
-    }
 }
 
 func toNAString(text string) string {
