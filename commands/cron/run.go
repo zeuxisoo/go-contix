@@ -174,12 +174,9 @@ func sendTelegramNotification(cronTask models.CronTask, task models.CronTaskPerf
         return err
     }
 
-    for index := range cronTask.Telegram.ChatIds {
-        chatId  := cronTask.Telegram.ChatIds[index]
-        message := telegramBot.CreateMessage(chatId, notificationContent)
+    for _, chatId := range cronTask.Telegram.ChatIds {
+        message := telegramBot.CreateMessage(chatId.Code, notificationContent)
         telegramBot.SendMessage(message)
-
-        log.Infof("chat id: %d sent", chatId)
     }
 
     return nil

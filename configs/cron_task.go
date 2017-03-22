@@ -25,8 +25,13 @@ func LoadCronTask() (models.CronTask, error) {
     return cronTask, nil
 }
 
-func ConvertChatIds(chatIds []int64) string {
-    result := strings.Trim(strings.Join(strings.Fields(fmt.Sprint(chatIds)), ", "), "[]")
+func ConvertChatIds(chatIds []models.CronTaskTelegramChatId) string {
+    var temp []string
+    for _, chatId := range chatIds {
+        temp = append(temp, fmt.Sprintf("%s (%d)", chatId.Name, chatId.Code))
+    }
+
+    result := strings.Join(temp, ", ")
 
     if len(result) <= 0 {
         result = "n/a"

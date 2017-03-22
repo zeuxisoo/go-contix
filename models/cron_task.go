@@ -40,7 +40,12 @@ type CronTaskUserAgent struct {
 }
 
 type CronTaskTelegram struct {
-    Enable  bool    `yaml:"enable"`
-    Token   string  `yaml:"token"`
-    ChatIds []int64 `yaml:"chat_ids"`
+    Enable  bool                        `yaml:"enable"`
+    Token   string                      `yaml:"token"`
+    ChatIds []CronTaskTelegramChatId    `yaml:"chat_ids"`
+}
+
+type CronTaskTelegramChatId struct {
+    Name string `yaml:"name"`
+    Code int64  `yaml:"code"`
 }

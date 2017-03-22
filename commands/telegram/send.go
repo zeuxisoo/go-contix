@@ -58,12 +58,11 @@ func telegramSend(ctx *cli.Context) error {
         return err
     }
 
-    for index := range cronTask.Telegram.ChatIds {
-        chatId  := cronTask.Telegram.ChatIds[index]
-        message := telegramBot.CreateMessage(chatId, content)
+    for _, chatId := range cronTask.Telegram.ChatIds {
+        message := telegramBot.CreateMessage(chatId.Code, content)
         telegramBot.SendMessage(message)
 
-        log.Infof("chat id: %d sent", chatId)
+        log.Infof("Name: %s, Chat Id: %d sent", chatId.Name, chatId.Code)
     }
 
     return nil
