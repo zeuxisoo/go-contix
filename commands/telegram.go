@@ -13,5 +13,6 @@ var CmdTelegram = cli.Command{
     Subcommands: []cli.Command{
         telegram.CmdTelegramValidate,
         telegram.CmdTelegramRun,
+        telegram.CmdTelegramSend,
     },
 }

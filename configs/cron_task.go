@@ -1,6 +1,8 @@
 package configs
 
 import (
+    "fmt"
+    "strings"
     "io/ioutil"
 
     "gopkg.in/yaml.v2"
@@ -21,4 +23,14 @@ func LoadCronTask() (models.CronTask, error) {
     }
 
     return cronTask, nil
+}
+
+func ConvertChatIds(chatIds []int64) string {
+    result := strings.Trim(strings.Join(strings.Fields(fmt.Sprint(chatIds)), ", "), "[]")
+
+    if len(result) <= 0 {
+        result = "n/a"
+    }
+
+    return result
 }
