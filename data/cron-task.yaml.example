@@ -41,5 +41,6 @@ user_agents:
     agent: "Mozilla/5.0 (Windows; U; WinNT4.0; de-AT; rv:1.7.11) Gecko/20050728"
 
 telegram:
+  enable: false
   token: ""
   chat_ids: []

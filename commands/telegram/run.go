@@ -36,8 +36,9 @@ func telegramRun(ctx *cli.Context) error {
         return err
     }
 
-    log.Infof("Your bot token : %s", cronTask.Telegram.Token)
-    log.Infof("Your bot name  : %s", telegramBot.GetBotUsername())
+    log.Infof("Bot is enable : %s", configs.ConvertEnableStatus(cronTask.Telegram.Enable))
+    log.Infof("Your bot token: %s", cronTask.Telegram.Token)
+    log.Infof("Your bot name : %s", telegramBot.GetBotUsername())
 
     updates, err := telegramBot.GetUpdatesChannel()
     if err != nil {

@@ -34,3 +34,11 @@ func ConvertChatIds(chatIds []int64) string {
 
     return result
 }
+
+func ConvertEnableStatus(status bool) string {
+    if status == true {
+        return "✔"
+    }else{
+        return "✘"
+    }
+}
