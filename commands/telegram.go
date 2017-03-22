@@ -12,5 +12,6 @@ var CmdTelegram = cli.Command{
     Description: "The tools provide you can to send or get info base on telegram",
     Subcommands: []cli.Command{
         telegram.CmdTelegramValidate,
+        telegram.CmdTelegramRun,
     },
 }
